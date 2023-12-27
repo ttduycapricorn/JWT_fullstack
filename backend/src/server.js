@@ -1,9 +1,16 @@
-import express from "express";
+import express from 'express';
+import bodyParser from 'body-parser';
 
-import initWebRoutes from "./route/web";
-import configViewEngine from "./configs/viewEngine";
+import initWebRoutes from './route/web';
+import configViewEngine from './configs/viewEngine';
+
+require('dotenv').config();
 
 const app = express();
+
+// config body-parser
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // config view engine
 configViewEngine(app);
@@ -14,5 +21,5 @@ initWebRoutes(app);
 const PORT = 8000;
 
 app.listen(PORT, () => {
-  console.log(">>>JWT backend is running on the port = ", PORT);
+    console.log('>>>JWT backend is running on the port = ', PORT);
 });
