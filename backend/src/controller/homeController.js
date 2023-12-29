@@ -17,7 +17,7 @@ const handleCreatedUser = (req, res) => {
     userService.CreateNewUser(email, password, username);
     userService.getListUser();
 
-    return res.send('created User!');
+    return res.redirect('/user');
 };
 
 const handleUserList = async () => {
@@ -25,8 +25,15 @@ const handleUserList = async () => {
     console.log('Check User List: ', userList);
 };
 
+const handleDeleteUser = async (req, res) => {
+    const idUser = req.params.id;
+    await userService.DeleteUser(idUser);
+    return res.redirect('/user');
+};
+
 module.exports = {
     handleHelloWorld: handleHelloWorld,
     handleUserPage: handleUserPage,
     handleCreatedUser: handleCreatedUser,
+    handleDeleteUser: handleDeleteUser,
 };

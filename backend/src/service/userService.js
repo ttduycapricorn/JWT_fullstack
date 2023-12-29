@@ -3,11 +3,11 @@ import bcrypt from 'bcryptjs';
 import bluebird from 'bluebird';
 
 // create the connection to database
-// const connection = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'root',
-//     database: 'jwt',
-// });
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    database: 'jwt',
+});
 
 // thuật toán hash password
 var salt = bcrypt.genSaltSync(10);
@@ -16,21 +16,24 @@ const hashPassword = (userPassword) => {
     return bcrypt.hashSync(userPassword, salt);
 };
 
-const CreateNewUser = (email, password, username) => {
+const CreateNewUser = async (email, password, username) => {
+    const connection = await mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        database: 'jwt',
+        Promise: bluebird,
+    });
     let userPassword = hashPassword(password);
 
-    // simple query
-    connection.query(
-        'insert into users (email, password, username) values (?, ?, ?)',
-        [email, userPassword, username],
-        function (err, results, fields) {
-            console.log(results); // results contains rows returned by server
-            console.log(fields); // fields contains extra meta data about results, if available
-        },
-    );
+    const [rows, fields] = await connection.execute('insert into users (email, password, username) values (?, ?, ?)', [
+        email,
+        userPassword,
+        username,
+    ]);
 };
 
 const getListUser = async () => {
+    // CODE CŨ
     // let users = [];
     //  connection.query('select * from users', function (err, results, fields) {
     //     if (err) {
@@ -56,7 +59,22 @@ const getListUser = async () => {
     }
 };
 
+const DeleteUser = async (id) => {
+    const connection = await mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        database: 'jwt',
+        Promise: bluebird,
+    });
+    try {
+        const [row, fields] = await connection.execute('delete from users where id=?', [id]);
+    } catch (error) {
+        console.log('Check error Delete user: ', error);
+    }
+};
+
 module.exports = {
     CreateNewUser: CreateNewUser,
     getListUser: getListUser,
+    DeleteUser: DeleteUser,
 };
