@@ -4,8 +4,9 @@ const handleHelloWorld = (req, res) => {
     return res.render('home.ejs');
 };
 
-const handleUserPage = (req, res) => {
-    return res.render('user.ejs');
+const handleUserPage = async (req, res) => {
+    let userList = await userService.getListUser();
+    return res.render('user.ejs', { userList });
 };
 
 const handleCreatedUser = (req, res) => {
@@ -17,6 +18,11 @@ const handleCreatedUser = (req, res) => {
     userService.getListUser();
 
     return res.send('created User!');
+};
+
+const handleUserList = async () => {
+    let userList = await userService.getListUser();
+    console.log('Check User List: ', userList);
 };
 
 module.exports = {
