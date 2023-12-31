@@ -25,7 +25,7 @@ const CreateNewUser = async (email, password, username) => {
     });
     let userPassword = hashPassword(password);
 
-    const [rows, fields] = await connection.execute('insert into users (email, password, username) values (?, ?, ?)', [
+    const [rows, fields] = await connection.execute('insert into user (email, password, username) values (?, ?, ?)', [
         email,
         userPassword,
         username,
@@ -52,7 +52,7 @@ const getListUser = async () => {
         Promise: bluebird,
     });
     try {
-        const [rows, fields] = await connection.execute('select * from users');
+        const [rows, fields] = await connection.execute('select * from user');
         return rows;
     } catch (error) {
         console.log('Check error: ', error);
@@ -96,7 +96,7 @@ const updateUserInfo = async (userEmail, userName, id) => {
         Promise: bluebird,
     });
     try {
-        const [rows, fields] = await connection.execute('update users set email=?, username=? where id=?', [
+        const [rows, fields] = await connection.execute('update user set email=?, username=? where id=?', [
             userEmail,
             userName,
             id,
