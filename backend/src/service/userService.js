@@ -1,5 +1,5 @@
-import mysql from 'mysql2/promise';
 import bcrypt from 'bcryptjs';
+// import mysql from 'mysql2/promise';
 // import bluebird from 'bluebird';
 import db from '../models';
 
@@ -18,11 +18,13 @@ const hashPassword = (userPassword) => {
 };
 
 const CreateNewUser = async (email, password, username) => {
+    let passwordUser = hashPassword(password);
+
     try {
         await db.User.create({
             username: username,
             email: email,
-            password: userPassword,
+            password: passwordUser,
         });
     } catch (error) {
         console.log('>>> Check Error: ', error);
