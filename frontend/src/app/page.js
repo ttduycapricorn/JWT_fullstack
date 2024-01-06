@@ -1,3 +1,12 @@
-export default function Home() {
-    return <h1>HELLO TRAN THAI DUY</h1>;
+import Navigation from '@/components/navbar';
+
+function Home() {
+    return (
+        <>
+            <Navigation />
+            <h1>HOME PAGE!</h1>
+        </>
+    );
 }
+
+export default Home;
