@@ -1,7 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Modal from 'react-modal';
+import axios from 'axios';
 
 import './login.scss';
 
@@ -31,6 +32,11 @@ function Login() {
     const handleCreateAccount = () => {
         alert('success create account!');
     };
+
+    useEffect(() => {
+        axios.get('https://reqres.in/api/users?page=2').then((data) => console.log('>>check data axios: ', data));
+    }, []);
+
     return (
         <>
             {/* Modal register */}
