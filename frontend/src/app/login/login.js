@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
-// import axios from 'axios';
+import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
 
@@ -13,6 +13,16 @@ function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [conformPassword, setConformPassword] = useState('');
+
+    const defaultValidInput = {
+        isValidEmail: true,
+        isValidPhone: true,
+        isValidUsername: true,
+        isValidPassword: true,
+        isValidConformPassword: true,
+    };
+
+    const [isValidCheck, setIsValidCheck] = useState(defaultValidInput);
 
     const [show, setShow] = useState(false);
 
@@ -27,20 +37,26 @@ function Login() {
     const formRef = useRef();
 
     const isValidInputs = () => {
+        setIsValidCheck(defaultValidInput);
+
         if (!email) {
             toast.error('Email is required!');
+            setIsValidCheck({ ...defaultValidInput, isValidEmail: false });
             return false;
         }
         if (!phoneNumber) {
             toast.error('phoneNumber is required!');
+            setIsValidCheck({ ...defaultValidInput, isValidPhone: false });
             return false;
         }
         if (!username) {
             toast.error('username is required!');
+            setIsValidCheck({ ...defaultValidInput, isValidUsername: false });
             return false;
         }
         if (!password) {
             toast.error('password is required!');
+            setIsValidCheck({ ...defaultValidInput, isValidPassword: false });
             return false;
         }
 
@@ -63,14 +79,13 @@ function Login() {
     const handleRegister = () => {
         let checkValid = isValidInputs();
 
-        const userData = {
-            email,
-            phoneNumber,
-            username,
-            password,
-        };
-
         if (checkValid === true) {
+            axios.post('http://localhost:8080/api/register', {
+                email,
+                phoneNumber,
+                username,
+                password,
+            });
             toast.success('Register success!');
         }
 
@@ -105,7 +120,7 @@ function Login() {
                             <label htmlFor="exampleInputEmail1">Email address</label>
                             <input
                                 type="email"
-                                className="form-control"
+                                className={isValidCheck.isValidEmail ? 'form-control' : 'form-control is-invalid'}
                                 aria-describedby="emailHelp"
                                 placeholder="Enter email"
                                 value={email}
@@ -119,7 +134,7 @@ function Login() {
                             <label htmlFor="exampleInputPassword1">Phone number</label>
                             <input
                                 type="text"
-                                className="form-control"
+                                className={isValidCheck.isValidPhone ? 'form-control' : 'form-control is-invalid'}
                                 placeholder="Phone number"
                                 value={phoneNumber}
                                 onChange={(e) => {
@@ -132,7 +147,7 @@ function Login() {
                             <label htmlFor="exampleInputPassword1">Username</label>
                             <input
                                 type="text"
-                                className="form-control"
+                                className={isValidCheck.isValidUsername ? 'form-control' : 'form-control is-invalid'}
                                 placeholder="Username"
                                 value={username}
                                 onChange={(e) => {
@@ -145,7 +160,7 @@ function Login() {
                             <label htmlFor="exampleInputPassword1">Password</label>
                             <input
                                 type="password"
-                                className="form-control"
+                                className={isValidCheck.isValidPassword ? 'form-control' : 'form-control is-invalid'}
                                 placeholder="Password"
                                 value={password}
                                 onChange={(e) => {
@@ -158,7 +173,9 @@ function Login() {
                             <label htmlFor="exampleInputPassword1">Re-enter password</label>
                             <input
                                 type="password"
-                                className="form-control"
+                                className={
+                                    isValidCheck.isValidConformPassword ? 'form-control' : 'form-control is-invalid'
+                                }
                                 placeholder="Re-enter password"
                                 value={conformPassword}
                                 onChange={(e) => {
