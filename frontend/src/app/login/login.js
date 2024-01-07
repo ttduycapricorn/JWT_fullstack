@@ -13,157 +13,92 @@ const customStyles = {
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
+        color: '#404243',
     },
 };
 
 function Login() {
-    let subtitle;
     const [modalIsOpen, setIsOpen] = useState(false);
 
     function openModal() {
         setIsOpen(true);
     }
 
-    function afterOpenModal() {
-        // references are now sync'd and can be accessed.
-        subtitle.style.color = '#f00';
-    }
-
     function closeModal() {
         setIsOpen(false);
     }
+
+    const handleCreateAccount = () => {
+        alert('success create account!');
+    };
     return (
         <>
             {/* Modal register */}
             <Modal
                 // appElement={el}
                 isOpen={modalIsOpen}
-                onAfterOpen={afterOpenModal}
                 onRequestClose={closeModal}
                 style={customStyles}
                 contentLabel="Example Modal"
                 ariaHideApp={false}
             >
-                <form className="row g-3">
-                    <div className="col-md-4">
-                        <label for="validationServer01" className="form-label">
-                            First name
-                        </label>
-                        <input
-                            type="text"
-                            className="form-control is-valid"
-                            id="validationServer01"
-                            value="Mark"
-                            required
-                        />
-                        <div className="valid-feedback">Looks good!</div>
-                    </div>
-                    <div className="col-md-4">
-                        <label for="validationServer02" className="form-label">
-                            Last name
-                        </label>
-                        <input
-                            type="text"
-                            className="form-control is-valid"
-                            id="validationServer02"
-                            value="Otto"
-                            required
-                        />
-                        <div className="valid-feedback">Looks good!</div>
-                    </div>
-                    <div className="col-md-4">
-                        <label for="validationServerUsername" className="form-label">
-                            Username
-                        </label>
-                        <div className="input-group has-validation">
-                            <span className="input-group-text" id="inputGroupPrepend3">
-                                @
-                            </span>
+                <div className="container row">
+                    <form>
+                        <div class="form-group py-3">
+                            <div className="text-center">
+                                <h2 className="title">REGISTER</h2>
+                            </div>
+                            <label for="exampleInputEmail1">Email address</label>
+                            <input
+                                type="email"
+                                class="form-control"
+                                id="exampleInputEmail1"
+                                aria-describedby="emailHelp"
+                                placeholder="Enter email"
+                            />
+                        </div>
+                        <div class="form-group pb-3">
+                            <label for="exampleInputPassword1">Phone number</label>
                             <input
                                 type="text"
-                                className="form-control is-invalid"
-                                id="validationServerUsername"
-                                aria-describedby="inputGroupPrepend3 validationServerUsernameFeedback"
-                                required
+                                class="form-control"
+                                id="exampleInputPassword1"
+                                placeholder="Phone number"
                             />
-                            <div id="validationServerUsernameFeedback" className="invalid-feedback">
-                                Please choose a username.
-                            </div>
                         </div>
-                    </div>
-                    <div className="col-md-6">
-                        <label for="validationServer03" className="form-label">
-                            City
-                        </label>
-                        <input
-                            type="text"
-                            className="form-control is-invalid"
-                            id="validationServer03"
-                            aria-describedby="validationServer03Feedback"
-                            required
-                        />
-                        <div id="validationServer03Feedback" className="invalid-feedback">
-                            Please provide a valid city.
+                        <div class="form-group pb-3">
+                            <label for="exampleInputPassword1">Username</label>
+                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Username" />
                         </div>
-                    </div>
-                    <div className="col-md-3">
-                        <label for="validationServer04" className="form-label">
-                            State
-                        </label>
-                        <select
-                            className="form-select is-invalid"
-                            id="validationServer04"
-                            aria-describedby="validationServer04Feedback"
-                            required
-                        >
-                            <option selected disabled value="">
-                                Choose...
-                            </option>
-                            <option>...</option>
-                        </select>
-                        <div id="validationServer04Feedback" className="invalid-feedback">
-                            Please select a valid state.
-                        </div>
-                    </div>
-                    <div className="col-md-3">
-                        <label for="validationServer05" className="form-label">
-                            Zip
-                        </label>
-                        <input
-                            type="text"
-                            className="form-control is-invalid"
-                            id="validationServer05"
-                            aria-describedby="validationServer05Feedback"
-                            required
-                        />
-                        <div id="validationServer05Feedback" className="invalid-feedback">
-                            Please provide a valid zip.
-                        </div>
-                    </div>
-                    <div className="col-12">
-                        <div className="form-check">
+                        <div class="form-group pb-3">
+                            <label for="exampleInputPassword1">Password</label>
                             <input
-                                className="form-check-input is-invalid"
-                                type="checkbox"
-                                value=""
-                                id="invalidCheck3"
-                                aria-describedby="invalidCheck3Feedback"
-                                required
+                                type="password"
+                                class="form-control"
+                                id="exampleInputPassword1"
+                                placeholder="Password"
                             />
-                            <label className="form-check-label" for="invalidCheck3">
-                                Agree to terms and conditions
-                            </label>
-                            <div id="invalidCheck3Feedback" className="invalid-feedback">
-                                You must agree before submitting.
-                            </div>
                         </div>
-                    </div>
-                    <div className="col-12">
-                        <button className="btn btn-primary" type="submit">
-                            Submit form
-                        </button>
-                    </div>
-                </form>
+                        <div class="form-group pb-3">
+                            <label for="exampleInputPassword1">Re-enter password</label>
+                            <input
+                                type="password"
+                                class="form-control"
+                                id="exampleInputPassword1"
+                                placeholder="Re-enter password"
+                            />
+                        </div>
+
+                        <div className="col-12 d-flex flex-column gap-3 py-3">
+                            <button type="submit" class="btn btn-success" onClick={handleCreateAccount}>
+                                Already have an account. Login
+                            </button>
+                            <button type="submit" class="btn btn-outline-danger" onClick={closeModal}>
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </Modal>
 
             <div className="login_container">
