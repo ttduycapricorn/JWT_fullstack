@@ -1,8 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import Modal from 'react-modal';
-import axios from 'axios';
+// import axios from 'axios';
+import Modal from 'react-bootstrap/Modal';
 
 import './login.scss';
 
@@ -19,92 +19,128 @@ const customStyles = {
 };
 
 function Login() {
-    const [modalIsOpen, setIsOpen] = useState(false);
+    const [email, setEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [conformPassword, setConformPassword] = useState('');
 
-    function openModal() {
-        setIsOpen(true);
-    }
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     function closeModal() {
-        setIsOpen(false);
+        setShow(false);
     }
 
     const handleCreateAccount = () => {
         alert('success create account!');
     };
 
+    // Logic Register
+    const handleRegister = () => {
+        const userData = {
+            email,
+            phoneNumber,
+            username,
+            password,
+        };
+
+        console.log('>>check user data: ', userData);
+    };
+
     useEffect(() => {
-        axios.get('https://reqres.in/api/users?page=2').then((data) => console.log('>>check data axios: ', data));
+        // axios.get('http://localhost:8080/api/test_api').then((data) => {
+        //     console.log('>>check data: ', data);
+        // });
     }, []);
 
     return (
         <>
             {/* Modal register */}
-            <Modal
-                // appElement={el}
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                style={customStyles}
-                contentLabel="Example Modal"
-                ariaHideApp={false}
-            >
-                <div className="container row">
+
+            <Modal className="modalRegister" show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        <div className="text-center">
+                            <h2 className="title">REGISTER</h2>
+                        </div>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
                     <form>
-                        <div class="form-group py-3">
-                            <div className="text-center">
-                                <h2 className="title">REGISTER</h2>
-                            </div>
-                            <label for="exampleInputEmail1">Email address</label>
+                        <div className="form-group">
+                            <label htmlFor="exampleInputEmail1">Email address</label>
                             <input
                                 type="email"
-                                class="form-control"
-                                id="exampleInputEmail1"
+                                className="form-control"
                                 aria-describedby="emailHelp"
                                 placeholder="Enter email"
+                                value={email}
+                                onChange={(e) => {
+                                    setEmail(e.target.value);
+                                }}
                             />
                         </div>
-                        <div class="form-group pb-3">
-                            <label for="exampleInputPassword1">Phone number</label>
+                        <div className="form-group py-3">
+                            <label htmlFor="exampleInputPassword1">Phone number</label>
                             <input
                                 type="text"
-                                class="form-control"
-                                id="exampleInputPassword1"
+                                className="form-control"
                                 placeholder="Phone number"
+                                value={phoneNumber}
+                                onChange={(e) => {
+                                    setPhoneNumber(e.target.value);
+                                }}
                             />
                         </div>
-                        <div class="form-group pb-3">
-                            <label for="exampleInputPassword1">Username</label>
-                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Username" />
+                        <div className="form-group pb-3">
+                            <label htmlFor="exampleInputPassword1">Username</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="Username"
+                                value={username}
+                                onChange={(e) => {
+                                    setUsername(e.target.value);
+                                }}
+                            />
                         </div>
-                        <div class="form-group pb-3">
-                            <label for="exampleInputPassword1">Password</label>
+                        <div className="form-group pb-3">
+                            <label htmlFor="exampleInputPassword1">Password</label>
                             <input
                                 type="password"
-                                class="form-control"
-                                id="exampleInputPassword1"
+                                className="form-control"
                                 placeholder="Password"
+                                value={password}
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                }}
                             />
                         </div>
-                        <div class="form-group pb-3">
-                            <label for="exampleInputPassword1">Re-enter password</label>
+                        <div className="form-group pb-3">
+                            <label htmlFor="exampleInputPassword1">Re-enter password</label>
                             <input
                                 type="password"
-                                class="form-control"
-                                id="exampleInputPassword1"
+                                className="form-control"
                                 placeholder="Re-enter password"
+                                value={conformPassword}
+                                onChange={(e) => {
+                                    setConformPassword(e.target.value);
+                                }}
                             />
-                        </div>
-
-                        <div className="col-12 d-flex flex-column gap-3 py-3">
-                            <button type="submit" class="btn btn-success" onClick={handleCreateAccount}>
-                                Already have an account. Login
-                            </button>
-                            <button type="submit" class="btn btn-outline-danger" onClick={closeModal}>
-                                Cancel
-                            </button>
                         </div>
                     </form>
-                </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <button type="submit" className="btn btn-outline-dark" onClick={handleRegister}>
+                        Register
+                    </button>
+                    <button type="submit" className="btn btn-outline-success" onClick={closeModal}>
+                        Already have an account. Login
+                    </button>
+                </Modal.Footer>
             </Modal>
 
             <div className="login_container">
@@ -123,7 +159,7 @@ function Login() {
                                 <Link href={'/'}>Forgot password ?</Link>
                             </span>
                             <hr />
-                            <button className="btn btn-outline-success" type="submit" onClick={openModal}>
+                            <button className="btn btn-outline-success" type="submit" onClick={handleShow}>
                                 Create a new account
                             </button>
                         </div>

@@ -50,10 +50,14 @@
     }
 }
 
-.modal_register {
-    border-radius: 10px;
-}
-
 .activities {
     max-width: 100%;
+}
+
+.modalRegister {
+    color: black;
+
+    .title {
+        font-weight: 800;
+    }
 }
