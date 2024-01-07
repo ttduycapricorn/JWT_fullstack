@@ -1,22 +1,11 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 // import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
+import { toast } from 'react-toastify';
 
 import './login.scss';
-
-const customStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-        color: '#404243',
-    },
-};
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -28,18 +17,52 @@ function Login() {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
-    function closeModal() {
-        setShow(false);
-    }
-
-    const handleCreateAccount = () => {
-        alert('success create account!');
+    const handleShow = () => {
+        setShow(true);
+        // formRef.current.reset();
     };
 
     // Logic Register
+
+    const formRef = useRef();
+
+    const isValidInputs = () => {
+        if (!email) {
+            toast.error('Email is required!');
+            return false;
+        }
+        if (!phoneNumber) {
+            toast.error('phoneNumber is required!');
+            return false;
+        }
+        if (!username) {
+            toast.error('username is required!');
+            return false;
+        }
+        if (!password) {
+            toast.error('password is required!');
+            return false;
+        }
+
+        if (password != conformPassword) {
+            toast.error('Your password is not same!');
+            return false;
+        }
+
+        const re =
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+        if (!re.test(email)) {
+            toast.error('Please enter a email valid in form!');
+            return false;
+        }
+
+        return true;
+    };
+
     const handleRegister = () => {
+        let checkValid = isValidInputs();
+
         const userData = {
             email,
             phoneNumber,
@@ -47,7 +70,11 @@ function Login() {
             password,
         };
 
-        console.log('>>check user data: ', userData);
+        if (checkValid === true) {
+            toast.success('Register success!');
+        }
+
+        setShow(true);
     };
 
     useEffect(() => {
@@ -59,7 +86,6 @@ function Login() {
     return (
         <>
             {/* Modal register */}
-
             <Modal className="modalRegister" show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>
@@ -69,7 +95,12 @@ function Login() {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <form>
+                    <form
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            e.target.reset();
+                        }}
+                    >
                         <div className="form-group">
                             <label htmlFor="exampleInputEmail1">Email address</label>
                             <input
@@ -81,6 +112,7 @@ function Login() {
                                 onChange={(e) => {
                                     setEmail(e.target.value);
                                 }}
+                                ref={formRef}
                             />
                         </div>
                         <div className="form-group py-3">
@@ -93,6 +125,7 @@ function Login() {
                                 onChange={(e) => {
                                     setPhoneNumber(e.target.value);
                                 }}
+                                ref={formRef}
                             />
                         </div>
                         <div className="form-group pb-3">
@@ -105,6 +138,7 @@ function Login() {
                                 onChange={(e) => {
                                     setUsername(e.target.value);
                                 }}
+                                ref={formRef}
                             />
                         </div>
                         <div className="form-group pb-3">
@@ -117,6 +151,7 @@ function Login() {
                                 onChange={(e) => {
                                     setPassword(e.target.value);
                                 }}
+                                ref={formRef}
                             />
                         </div>
                         <div className="form-group pb-3">
@@ -129,6 +164,7 @@ function Login() {
                                 onChange={(e) => {
                                     setConformPassword(e.target.value);
                                 }}
+                                ref={formRef}
                             />
                         </div>
                     </form>
@@ -137,7 +173,7 @@ function Login() {
                     <button type="submit" className="btn btn-outline-dark" onClick={handleRegister}>
                         Register
                     </button>
-                    <button type="submit" className="btn btn-outline-success" onClick={closeModal}>
+                    <button type="submit" className="btn btn-outline-success" onClick={handleClose}>
                         Already have an account. Login
                     </button>
                 </Modal.Footer>
@@ -159,7 +195,13 @@ function Login() {
                                 <Link href={'/'}>Forgot password ?</Link>
                             </span>
                             <hr />
-                            <button className="btn btn-outline-success" type="submit" onClick={handleShow}>
+                            <button
+                                className="btn btn-outline-success"
+                                type="submit"
+                                onClick={() => {
+                                    handleShow();
+                                }}
+                            >
                                 Create a new account
                             </button>
                         </div>
