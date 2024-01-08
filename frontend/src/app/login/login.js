@@ -1,15 +1,15 @@
 'use client';
-import { useEffect, useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
-import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
 
 import './login.scss';
+import { registerNewUser } from '@/services/useService';
 
 function Login() {
     const [email, setEmail] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [phone, setPhone] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [conformPassword, setConformPassword] = useState('');
@@ -33,7 +33,6 @@ function Login() {
     };
 
     // Logic Register
-
     const formRef = useRef();
 
     const isValidInputs = () => {
@@ -44,8 +43,8 @@ function Login() {
             setIsValidCheck({ ...defaultValidInput, isValidEmail: false });
             return false;
         }
-        if (!phoneNumber) {
-            toast.error('phoneNumber is required!');
+        if (!phone) {
+            toast.error('phone is required!');
             setIsValidCheck({ ...defaultValidInput, isValidPhone: false });
             return false;
         }
@@ -78,25 +77,10 @@ function Login() {
 
     const handleRegister = () => {
         let checkValid = isValidInputs();
-
-        if (checkValid === true) {
-            axios.post('http://localhost:8080/api/register', {
-                email,
-                phoneNumber,
-                username,
-                password,
-            });
-            toast.success('Register success!');
+        if (checkValid == true) {
+            registerNewUser(email, phone, username, password);
         }
-
-        setShow(true);
     };
-
-    useEffect(() => {
-        // axios.get('http://localhost:8080/api/test_api').then((data) => {
-        //     console.log('>>check data: ', data);
-        // });
-    }, []);
 
     return (
         <>
@@ -136,9 +120,9 @@ function Login() {
                                 type="text"
                                 className={isValidCheck.isValidPhone ? 'form-control' : 'form-control is-invalid'}
                                 placeholder="Phone number"
-                                value={phoneNumber}
+                                value={phone}
                                 onChange={(e) => {
-                                    setPhoneNumber(e.target.value);
+                                    setPhone(e.target.value);
                                 }}
                                 ref={formRef}
                             />
@@ -196,6 +180,7 @@ function Login() {
                 </Modal.Footer>
             </Modal>
 
+            {/* Form login  */}
             <div className="login_container">
                 <div className="container">
                     <div className="row">

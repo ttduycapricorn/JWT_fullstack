@@ -1,3 +1,5 @@
+import CRUD_UserService from '../service/CRUD_UserService';
+
 const testAPI = (req, res) => {
     return res.status(200).json({
         message: 'OK',
@@ -5,8 +7,31 @@ const testAPI = (req, res) => {
     });
 };
 
-const handleRegister = (req, res) => {
-    console.log('call me!', req.body);
+const handleRegister = async (req, res) => {
+    try {
+        // req.body: email, username, phone, password
+        if (!req.body.email || !req.body.phone || !req.body.password) {
+            return res.status(200).json({
+                EM: 'Missing required parameter',
+                EC: '1',
+                DT: '', //data
+            });
+        }
+        // service: create user
+        let data = await CRUD_UserService.registerNewUser(req.body);
+        return res.status(500).json({
+            EM: data.EM,
+            EC: data.EC,
+            DT: '', //data
+        });
+    } catch (e) {
+        console.log('>>check error: ', e);
+        return res.status(500).json({
+            EM: 'error from server',
+            EC: '-1',
+            DT: '', //data
+        });
+    }
 };
 
 module.exports = {
