@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
 
 import './login.scss';
-import { registerNewUser } from '@/services/useService';
+import { registerNewUser, loginUser } from '@/services/useService';
 
 function Login() {
     // Logic Register
@@ -99,23 +99,19 @@ function Login() {
 
     const [objValidInput, setObjValidInput] = useState(defaultValidInputLogin);
 
-    const checkValidInputLogin = () => {
-        if (emailLogin !== '') {
-            toast.error('Pleas enter your email address or your phone number!');
-            return false;
+    const handleLogin = async () => {
+        setObjValidInput(defaultValidInput);
+        if (!emailLogin) {
+            setObjValidInput({ ...defaultValidInput, isValidEmailLogin: false });
+            toast.error('Please enter your email!');
+            return;
         }
-        if (emailLogin !== '') {
-            toast.error('Pleas enter your email address or your phone number!');
-            return false;
+        if (!passwordLogin) {
+            setObjValidInput({ ...defaultValidInput, isVAlidPasswordLogin: false });
+            toast.error('Please enter your password!');
+            return;
         }
-
-        return true;
-    };
-
-    const handleLogin = () => {
-        let checkValid = checkValidInputLogin;
-        if (checkValid === true) {
-        }
+        await loginUser(emailLogin, passwordLogin);
     };
 
     return (

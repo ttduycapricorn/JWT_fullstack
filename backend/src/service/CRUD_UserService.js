@@ -80,6 +80,9 @@ const registerNewUser = async (rawUserData) => {
     }
 };
 
+const loginUser = () => {};
+
 module.exports = {
     registerNewUser,
+    loginUser,
 };
