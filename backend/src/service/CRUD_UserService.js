@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import { Op } from 'sequelize';
 
 import db from '../models/index';
 
@@ -80,7 +81,43 @@ const registerNewUser = async (rawUserData) => {
     }
 };
 
-const loginUser = () => {};
+const checkPasswordHash = (password, hashPassword) => {
+    // Load hash from your password DB.
+    return bcrypt.compareSync(password, hashPassword); //return true or false
+};
+
+const loginUser = async (rawUserData) => {
+    try {
+        let user = await db.User.findOne({
+            where: {
+                [Op.or]: [{ email: rawUserData.email }, { phone: rawUserData.email }],
+            },
+        });
+
+        if (user) {
+            console.log('>>>Found user with email/phone!');
+
+            let checkPassword = checkPasswordHash(rawUserData.password, user.password);
+
+            if (checkPassword === true) {
+                return {
+                    EM: 'OK!',
+                    EC: '0',
+                    DT: '',
+                };
+            }
+        }
+        console.log('>>>Not found email and phone number, check Error: ', rawUserData.email);
+        console.log('>>>check User: ', user.get({ plan: true }));
+        return {
+            EM: 'Your email or Your phone number is incorrect!',
+            EC: '-1',
+            DT: '',
+        };
+    } catch (e) {
+        console.log('>>check Error loginUser: ', e);
+    }
+};
 
 module.exports = {
     registerNewUser,

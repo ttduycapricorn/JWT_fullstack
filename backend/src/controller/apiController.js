@@ -22,7 +22,7 @@ const handleRegister = async (req, res) => {
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,
-            DT: '', //data
+            DT: data.DT, //data
         });
     } catch (e) {
         console.log('>>check error: ', e);
@@ -35,11 +35,22 @@ const handleRegister = async (req, res) => {
 };
 
 const handleLogin = async (req, res) => {
-    console.log('check req.body: ', req.body);
-    return res.status(200).json({
-        message: 'test api success!',
-        data: 'test api login',
-    });
+    try {
+        let data = await CRUD_UserService.loginUser(req.body);
+
+        return res.status(200).json({
+            EM: data.EM,
+            EC: data.EC,
+            DT: data.DT, //data
+        });
+    } catch (e) {
+        console.log('>>check Error: ', e);
+        return res.status(500).json({
+            EM: 'error from server',
+            EC: '-1',
+            DT: '',
+        });
+    }
 };
 
 module.exports = {
