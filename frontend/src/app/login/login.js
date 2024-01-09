@@ -8,6 +8,7 @@ import './login.scss';
 import { registerNewUser } from '@/services/useService';
 
 function Login() {
+    // Logic Register
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [username, setUsername] = useState('');
@@ -32,7 +33,6 @@ function Login() {
         // formRef.current.reset();
     };
 
-    // Logic Register
     const formRef = useRef();
 
     const isValidInputs = () => {
@@ -75,10 +75,46 @@ function Login() {
         return true;
     };
 
-    const handleRegister = () => {
-        let checkValid = isValidInputs();
-        if (checkValid == true) {
-            registerNewUser(email, phone, username, password);
+    const handleRegister = async () => {
+        if (isValidInputs() === true) {
+            let response = await registerNewUser(email, phone, username, password);
+            let serverData = response.data;
+            if (+serverData.EC === 0) {
+                toast.success(serverData.EM);
+            } else {
+                toast.error(serverData.EM);
+            }
+        }
+    };
+
+    // logic Login
+
+    const [emailLogin, setEmailLogin] = useState('');
+    const [passwordLogin, setPasswordLogin] = useState('');
+
+    const defaultValidInputLogin = {
+        isValidEmailLogin: true,
+        isVAlidPasswordLogin: true,
+    };
+
+    const [objValidInput, setObjValidInput] = useState(defaultValidInputLogin);
+
+    const checkValidInputLogin = () => {
+        if (emailLogin !== '') {
+            toast.error('Pleas enter your email address or your phone number!');
+            return false;
+        }
+        if (emailLogin !== '') {
+            toast.error('Pleas enter your email address or your phone number!');
+            return false;
+        }
+
+        return true;
+    };
+
+    const handleLogin = () => {
+        let checkValid = checkValidInputLogin;
+        if (checkValid === true) {
         }
     };
 
@@ -131,7 +167,9 @@ function Login() {
                             <label htmlFor="exampleInputPassword1">Username</label>
                             <input
                                 type="text"
-                                className={isValidCheck.isValidUsername ? 'form-control' : 'form-control is-invalid'}
+                                className={
+                                    isValidCheck.isValidUsername === true ? 'form-control' : 'form-control is-invalid'
+                                }
                                 placeholder="Username"
                                 value={username}
                                 onChange={(e) => {
@@ -144,7 +182,9 @@ function Login() {
                             <label htmlFor="exampleInputPassword1">Password</label>
                             <input
                                 type="password"
-                                className={isValidCheck.isValidPassword ? 'form-control' : 'form-control is-invalid'}
+                                className={
+                                    isValidCheck.isValidPassword === true ? 'form-control' : 'form-control is-invalid'
+                                }
                                 placeholder="Password"
                                 value={password}
                                 onChange={(e) => {
@@ -188,9 +228,27 @@ function Login() {
                             <h2 className="title">LOGIN</h2>
                         </div>
                         <div className="content_right col-12 d-flex flex-column gap-3 py-3">
-                            <input className="form-control" type="text" placeholder="Email address or phone number" />
-                            <input className="form-control" type="password" placeholder="password" />
-                            <button className="btn btn-secondary" type="submit">
+                            <input
+                                className={objValidInput.isValidEmailLogin ? 'form-control' : 'form-control is-invalid'}
+                                type="text"
+                                placeholder="Email address or phone number"
+                                value={emailLogin}
+                                onChange={(e) => {
+                                    setEmailLogin(e.target.value);
+                                }}
+                            />
+                            <input
+                                className={
+                                    objValidInput.isVAlidPasswordLogin ? 'form-control' : 'form-control is-invalid'
+                                }
+                                type="password"
+                                placeholder="password"
+                                value={passwordLogin}
+                                onChange={(e) => {
+                                    setPasswordLogin(e.target.value);
+                                }}
+                            />
+                            <button className="btn btn-secondary" type="submit" onClick={handleLogin}>
                                 Login
                             </button>
                             <span className="text-center">

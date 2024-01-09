@@ -19,7 +19,7 @@ const handleRegister = async (req, res) => {
         }
         // service: create user
         let data = await CRUD_UserService.registerNewUser(req.body);
-        return res.status(500).json({
+        return res.status(200).json({
             EM: data.EM,
             EC: data.EC,
             DT: '', //data
