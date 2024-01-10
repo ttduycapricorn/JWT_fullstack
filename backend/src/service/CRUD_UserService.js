@@ -105,10 +105,15 @@ const loginUser = async (rawUserData) => {
                     EC: '0',
                     DT: '',
                 };
+            } else {
+                return {
+                    EM: 'Your password is incorrect!',
+                    EC: '-1',
+                    DT: '',
+                };
             }
         }
         console.log('>>>Not found email and phone number, check Error: ', rawUserData.email);
-        console.log('>>>check User: ', user.get({ plan: true }));
         return {
             EM: 'Your email or Your phone number is incorrect!',
             EC: '-1',

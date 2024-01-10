@@ -3,6 +3,7 @@ import { useState, useRef } from 'react';
 import Link from 'next/link';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 import './login.scss';
 import { registerNewUser, loginUser } from '@/services/useService';
@@ -89,6 +90,8 @@ function Login() {
 
     // logic Login
 
+    const router = useRouter();
+
     const [emailLogin, setEmailLogin] = useState('');
     const [passwordLogin, setPasswordLogin] = useState('');
 
@@ -111,7 +114,23 @@ function Login() {
             toast.error('Please enter your password!');
             return;
         }
-        await loginUser(emailLogin, passwordLogin);
+        let response = await loginUser(emailLogin, passwordLogin);
+
+        // if đăng nhập thành công
+        if (response && response.data && +response.data.EC === 0) {
+            // success
+            let data = {
+                isAuthenticated: true,
+                token: 'fake token',
+            };
+            sessionStorage.setItem('account', JSON.stringify(data));
+            toast.success(response.data.EM);
+            router.push('/user');
+        }
+        if (response && response.data && +response.data.EC !== 0) {
+            // error
+            toast.error(response.data.EM);
+        }
     };
 
     return (
