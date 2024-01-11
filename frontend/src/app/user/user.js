@@ -1,5 +1,6 @@
 'use client';
 
+import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -11,6 +12,10 @@ function UserPage() {
         if (!session) {
             router.push('/');
         }
+    }, []);
+
+    useEffect(() => {
+        axios.get('').then();
     }, []);
     return (
         <>

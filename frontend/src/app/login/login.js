@@ -61,6 +61,7 @@ function Login() {
         }
 
         if (password != conformPassword) {
+            setIsValidCheck({ ...defaultValidInput, isValidConformPassword: false });
             toast.error('Your password is not same!');
             return false;
         }
@@ -69,6 +70,7 @@ function Login() {
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
         if (!re.test(email)) {
+            setIsValidCheck({ ...defaultValidInput, isValidEmail: false });
             toast.error('Please enter a email valid in form!');
             return false;
         }
@@ -130,6 +132,12 @@ function Login() {
         if (response && response.data && +response.data.EC !== 0) {
             // error
             toast.error(response.data.EM);
+        }
+    };
+
+    const handlePressEnter = (event) => {
+        if (event.charCode === 13 || event.code === 'Enter') {
+            handleLogin();
         }
     };
 
@@ -251,6 +259,7 @@ function Login() {
                                 onChange={(e) => {
                                     setEmailLogin(e.target.value);
                                 }}
+                                onKeyUp={(event) => handlePressEnter(event)}
                             />
                             <input
                                 className={
@@ -262,6 +271,7 @@ function Login() {
                                 onChange={(e) => {
                                     setPasswordLogin(e.target.value);
                                 }}
+                                onKeyUp={(event) => handlePressEnter(event)}
                             />
                             <button className="btn btn-secondary" type="submit" onClick={handleLogin}>
                                 Login
