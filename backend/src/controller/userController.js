@@ -2,8 +2,19 @@ import userAPIService from '../service/userAPIService';
 
 const Read = async (req, res) => {
     try {
-        let data = await userAPIService.getAllUser();
-        if (data) {
+        if (req.query.page && req.query.limit) {
+            let page = req.query.page;
+            let limit = req.query.limit;
+            // console.log('>>check data: ', 'page: ', page, 'limit: ', limit);
+            let data = await userAPIService.getUserWithPagination(+page, +limit);
+
+            return res.status(200).json({
+                EM: data.EM,
+                EC: data.EC,
+                DT: data.DT, //data
+            });
+        } else {
+            let data = await userAPIService.getAllUser();
             return res.status(200).json({
                 EM: data.EM,
                 EC: data.EC,
