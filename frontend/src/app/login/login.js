@@ -106,13 +106,13 @@ function Login() {
 
     const handleLogin = async () => {
         setObjValidInput(defaultValidInput);
-        if (!emailLogin) {
-            setObjValidInput({ ...defaultValidInput, isValidEmailLogin: false });
+        if (!emailLogin && passwordLogin) {
+            setObjValidInput({ ...defaultValidInput, isValidEmailLogin: false, isVAlidPasswordLogin: true });
             toast.error('Please enter your email!');
             return;
         }
-        if (!passwordLogin) {
-            setObjValidInput({ ...defaultValidInput, isVAlidPasswordLogin: false });
+        if (emailLogin && !passwordLogin) {
+            setObjValidInput({ ...defaultValidInput, isValidEmailLogin: true, isVAlidPasswordLogin: false });
             toast.error('Please enter your password!');
             return;
         }
@@ -127,7 +127,7 @@ function Login() {
             };
             sessionStorage.setItem('account', JSON.stringify(data));
             toast.success(response.data.EM);
-            router.push('/user');
+            router.back();
         }
         if (response && response.data && +response.data.EC !== 0) {
             // error

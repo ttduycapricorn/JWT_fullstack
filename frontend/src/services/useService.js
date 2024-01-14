@@ -16,4 +16,8 @@ const loginUser = (email, password) => {
     });
 };
 
-export { registerNewUser, loginUser };
+const fetchAllUser = () => {
+    return axios.get('http://localhost:8080/api/user/read');
+};
+
+export { registerNewUser, loginUser, fetchAllUser };

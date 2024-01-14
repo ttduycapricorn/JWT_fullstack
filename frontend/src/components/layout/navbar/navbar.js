@@ -1,5 +1,8 @@
+'use client';
+import Tippy from '@tippyjs/react';
 import Link from 'next/link';
 
+import { menuItemsData } from './menuItemData';
 import './navbar.scss';
 
 function Navbar() {
@@ -20,18 +23,19 @@ function Navbar() {
                     </button>
                     <div className="collapse navbar-collapse" id="navbarCollapse">
                         <div className="navbar-nav">
-                            <Link href="/" className="nav-item nav-link active">
-                                Home
-                            </Link>
-                            <Link href="#" className="nav-item nav-link">
-                                Profile
-                            </Link>
-                            <Link href="#" className="nav-item nav-link">
-                                Messages
-                            </Link>
-                            <Link href="#" className="nav-item nav-link disabled" tabIndex="-1">
-                                Reports
-                            </Link>
+                            {
+                                <div className="menus">
+                                    {menuItemsData.map((menu, index) => {
+                                        return (
+                                            <Tippy content={menu.title} key={index}>
+                                                <Link className="nav-item nav-link" href={menu.url} key={index}>
+                                                    {menu.title}
+                                                </Link>
+                                            </Tippy>
+                                        );
+                                    })}
+                                </div>
+                            }
                         </div>
                         <div className="navbar-nav ms-auto">
                             <Link href="/login" className="nav-item nav-link">

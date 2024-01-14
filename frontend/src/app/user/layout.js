@@ -23,7 +23,6 @@ function UserPageLayout({ children }) {
             <div>
                 {account && !_.isEmpty(account) && account.isAuthenticated && <Navbar />}
                 {children}
-                <h1>{getyear}</h1>
                 <Footer />
             </div>
         </>

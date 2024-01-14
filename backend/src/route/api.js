@@ -1,6 +1,7 @@
 import express from 'express';
 
 import apiController from '../controller/apiController';
+import userController from '../controller/userController';
 
 const router = express.Router();
 
@@ -10,6 +11,11 @@ const initAPIRoutes = (app) => {
     router.get('/test_api', apiController.testAPI);
     router.post('/register', apiController.handleRegister);
     router.post('/login', apiController.handleLogin);
+
+    router.get('/user/read', userController.Read);
+    router.post('/user/create', userController.Create);
+    router.post('/user/update', userController.Update);
+    router.post('/user/delete', userController.Delete);
 
     return app.use('/api/', router);
 };
