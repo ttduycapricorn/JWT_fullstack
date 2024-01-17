@@ -8,8 +8,8 @@ export const menuItemsData = [
         url: '/login',
     },
     {
-        title: 'About',
-        url: '/',
+        title: 'User',
+        url: '/user',
     },
     {
         title: 'Services',

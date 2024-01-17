@@ -1,5 +1,6 @@
 import userAPIService from '../service/userAPIService';
 
+// phân trang cho trang User
 const Read = async (req, res) => {
     try {
         if (req.query.page && req.query.limit) {
@@ -53,8 +54,15 @@ const Update = (req, res) => {
     }
 };
 
-const Delete = (req, res) => {
+const Delete = async (req, res) => {
     try {
+        console.log('>>>check req.body: ', req.body);
+        let user = await userAPIService.deleteUser(req.body.id);
+        return res.status(200).json({
+            EM: user.EM,
+            EC: user.EC,
+            DT: user.DT, //data
+        });
     } catch (e) {
         console.log('>>check Delete func: ', e);
         return res.status(500).json({

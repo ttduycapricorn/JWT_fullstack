@@ -4,16 +4,19 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import ReactPaginate from 'react-paginate';
 
-import { fetchAllUser } from '@/services/useService';
+import { fetchAllUser, deleteUser } from '@/services/userService';
+import ModalDeleteUser from '@/components/modals/modalDeleteUser';
+// import { ModalCreate } from '@/components/modals';
 
 function UserPage() {
     const router = useRouter();
 
     const [listUsers, setListUsers] = useState([]);
-
     const [currentPage, setCurrentPage] = useState(1);
     const [currentLimit, setCurrentLimit] = useState(3);
     const [totalPage, setTotalPage] = useState(0);
+    const [showModalDeleteUser, setShowModalDeleteUser] = useState(false);
+    const [dataModal, setDataModal] = useState({});
 
     useEffect(() => {
         let session = sessionStorage.getItem('account');
@@ -35,7 +38,6 @@ function UserPage() {
             // setListUsers(response.data.DT);
             // console.log(response.data.DT);
 
-            console.log(response.data.DT);
             setTotalPage(response.data.DT.totalPages);
             setListUsers(response.data.DT.users);
         }
@@ -46,9 +48,29 @@ function UserPage() {
         // await fetchUsers(event.selected + 1);
     };
 
+    const handleDelete = async (user) => {
+        let response = await deleteUser(user);
+        if (response && response.data && response.data.EC === 0) {
+            toast.success(response.data.EM);
+            await fetchUsers();
+            handleClose();
+        } else {
+            toast.error(response.data.EM);
+        }
+    };
+
+    const handleClose = () => {
+        setShowModalDeleteUser(false);
+    };
+
+    const handleShow = (user) => {
+        setDataModal(user);
+        setShowModalDeleteUser(true);
+    };
+
     return (
         <>
-            <div className="manage_container">
+            <div className="manage_container container">
                 <div className="userHeader">
                     <div className="title">
                         <h3>TABLE USERS</h3>
@@ -57,7 +79,7 @@ function UserPage() {
                         <button
                             className="btn btn-primary"
                             onClick={() => {
-                                window.location.reload();
+                                fetchUsers();
                             }}
                         >
                             Refresh
@@ -87,9 +109,24 @@ function UserPage() {
                                                 <td>{item.username}</td>
                                                 <td>{item.Group ? item.Group.name : ''}</td>
                                                 <td>
-                                                    <button className="btn btn-warning">Update</button>
-                                                    <button className="btn btn-danger">Delete</button>
+                                                    <button className="btn btn-warning mx-3">Update</button>
+                                                    <button
+                                                        className="btn btn-danger"
+                                                        onClick={() => {
+                                                            handleShow(item);
+                                                        }}
+                                                    >
+                                                        Delete
+                                                    </button>
                                                 </td>
+                                                <ModalDeleteUser
+                                                    show={showModalDeleteUser}
+                                                    onHide={handleClose}
+                                                    handleDelete={() => {
+                                                        handleDelete(item);
+                                                    }}
+                                                    dataModal={dataModal}
+                                                />
                                             </tr>
                                         );
                                     })

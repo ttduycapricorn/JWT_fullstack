@@ -15,7 +15,7 @@ const initAPIRoutes = (app) => {
     router.get('/user/read', userController.Read);
     router.post('/user/create', userController.Create);
     router.post('/user/update', userController.Update);
-    router.post('/user/delete', userController.Delete);
+    router.delete('/user/delete', userController.Delete);
 
     return app.use('/api/', router);
 };
