@@ -3,10 +3,10 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import ReactPaginate from 'react-paginate';
+import dynamic from 'next/dynamic';
 
 import { fetchAllUser, deleteUser } from '@/services/userService';
 import ModalDeleteUser from '@/components/modals/modalDeleteUser';
-// import { ModalCreate } from '@/components/modals';
 
 function UserPage() {
     const router = useRouter();
@@ -17,6 +17,7 @@ function UserPage() {
     const [totalPage, setTotalPage] = useState(0);
     const [showModalDeleteUser, setShowModalDeleteUser] = useState(false);
     const [dataModal, setDataModal] = useState({});
+    const [showModalUser, setShowModalUser] = useState(false);
 
     useEffect(() => {
         let session = sessionStorage.getItem('account');
@@ -68,6 +69,16 @@ function UserPage() {
         setShowModalDeleteUser(true);
     };
 
+    // MODAL USER
+    const ModalUser = dynamic(() => import('@/components/modals/modalUser'), { showModalUser: false });
+
+    const handleShowUser = () => {
+        setShowModalUser(true);
+    };
+    const handleCloseShowUser = () => {
+        setShowModalUser(false);
+    };
+
     return (
         <>
             <div className="manage_container container">
@@ -84,9 +95,16 @@ function UserPage() {
                         >
                             Refresh
                         </button>
-                        <button className="btn btn-success">Add new user</button>
+                        <button
+                            className="btn btn-success"
+                            onClick={() => {
+                                handleShowUser();
+                            }}
+                        >
+                            Add new user
+                        </button>
                     </div>
-                    <div className="user-body container">
+                    <div className="user-body">
                         <table className="table table-dark table-striped-columns table-hover">
                             <thead>
                                 <tr>
@@ -162,6 +180,14 @@ function UserPage() {
                     </div>
                 </div>
             </div>
+
+            <ModalUser
+                show={showModalUser}
+                onHide={() => {
+                    handleCloseShowUser();
+                }}
+                title={'Create new User'}
+            />
         </>
     );
 }

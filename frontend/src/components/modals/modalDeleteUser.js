@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 function ModalDeleteUser(props) {
     return (
         <>
-            <Modal show={props.show} onHide={props.onHide} style={{ color: 'black' }}>
+            <Modal show={props.show} onHide={props.onHide} style={{ color: 'black' }} centered>
                 <Modal.Header>
                     <Modal.Title>Modal heading</Modal.Title>
                 </Modal.Header>
