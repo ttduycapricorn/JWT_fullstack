@@ -2,6 +2,7 @@ import { Inter } from 'next/font/google';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 import './globals.scss';
 // import Navbar from '@/components/layout/navbar';

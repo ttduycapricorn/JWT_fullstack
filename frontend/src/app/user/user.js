@@ -3,11 +3,15 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import ReactPaginate from 'react-paginate';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faRefresh, faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 // import dynamic from 'next/dynamic';
 
-import { fetchAllUser, deleteUser } from '@/services/userService';
+import { fetchAllUser, deleteUser, fetchGroup } from '@/services/userService';
 import ModalDeleteUser from '@/components/modals/modalDeleteUser';
 import ModalUser from '@/components/modals/modalUser';
+
+import './user.scss';
 
 function UserPage() {
     const router = useRouter();
@@ -97,20 +101,25 @@ function UserPage() {
         setActionModalUser('UPDATE');
     };
 
+    const handleRefresh = async () => {
+        await fetchGroup();
+    };
+
     return (
         <>
             <div className="manage_container container">
                 <div className="userHeader">
                     <div className="title">
-                        <h3>TABLE USERS</h3>
+                        <h3>MANAGE USERS</h3>
                     </div>
                     <div className="action">
                         <button
-                            className="btn btn-primary"
+                            className="btn btn-primary btn-refresh"
                             onClick={() => {
-                                fetchUsers();
+                                handleRefresh();
                             }}
                         >
+                            <FontAwesomeIcon icon={faRefresh} />
                             Refresh
                         </button>
                         <button
@@ -120,6 +129,7 @@ function UserPage() {
                                 setActionModalUser('CREATE');
                             }}
                         >
+                            <FontAwesomeIcon icon={faPlus} />
                             Add new user
                         </button>
                     </div>
@@ -133,7 +143,7 @@ function UserPage() {
                                     <th scope="col">User name</th>
                                     <th scope="col">Group</th>
                                     <th scope="col">Description</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -154,6 +164,7 @@ function UserPage() {
                                                             handleEditUser(item);
                                                         }}
                                                     >
+                                                        <FontAwesomeIcon icon={faPencilAlt} />
                                                         Update
                                                     </button>
                                                     <button
@@ -162,6 +173,7 @@ function UserPage() {
                                                             handleShow(item);
                                                         }}
                                                     >
+                                                        <FontAwesomeIcon icon={faTrash} />
                                                         Delete
                                                     </button>
                                                 </td>

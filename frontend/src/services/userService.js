@@ -34,4 +34,10 @@ const createNewUser = (userData) => {
     });
 };
 
-export { registerNewUser, loginUser, fetchAllUser, deleteUser, fetchGroup, createNewUser };
+const updateUser = (userData) => {
+    return axios.put('http://localhost:8080/api/user/update', {
+        ...userData,
+    });
+};
+
+export { registerNewUser, loginUser, fetchAllUser, deleteUser, fetchGroup, createNewUser, updateUser };

@@ -6,7 +6,7 @@ import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
 
-import { fetchGroup, createNewUser } from '@/services/userService';
+import { fetchGroup, createNewUser, updateUser } from '@/services/userService';
 
 function ModalUser(props) {
     const { actions, data_modal_user } = props;
@@ -43,7 +43,6 @@ function ModalUser(props) {
 
     useEffect(() => {
         if (actions === 'UPDATE') {
-            console.log(data_modal_user);
             setUserData({ ...data_modal_user, group: data_modal_user.Group ? data_modal_user.Group.id : '' });
         }
     }, [data_modal_user]);
@@ -71,6 +70,7 @@ function ModalUser(props) {
 
     const checkValidateInputs = () => {
         // check input user
+        if (actions === 'UPDATE') return true;
         setValidInputs(validInputsDefault); //reset State inputs in form
         let check = true;
         let array = ['email', 'phone', 'password', 'role'];
@@ -98,10 +98,14 @@ function ModalUser(props) {
     const handleConformUser = async () => {
         checkValidateInputs();
         if (checkValidateInputs() === true) {
-            let response = await createNewUser({ ...userData, groupId: userData['group'] });
+            let response =
+                actions === 'CREATE'
+                    ? await createNewUser({ ...userData, groupId: userData['group'] })
+                    : await updateUser({ ...userData, groupId: userData['group'] });
             if (response && response.data && response.data.EC === 0) {
                 toast.success(response.data.EM);
                 props.onHide();
+                setUserData({ ...defaultUserData, group: userGroup && userGroup.length > 0 ? userGroup[0].id : '' });
             } else {
                 toast.error(response.data.EM);
                 let _ValidInputs = _.cloneDeep(validInputsDefault);
@@ -145,7 +149,7 @@ function ModalUser(props) {
                             placeholder="name@example.com"
                             autoFocus
                             disabled={actions === 'CREATE' ? false : true}
-                            value={userData.email}
+                            value={userData.email === '' ? '' : userData.email}
                             onChange={(event) => {
                                 handleOnchangeInput(event.target.value, 'email');
                             }}
@@ -160,7 +164,7 @@ function ModalUser(props) {
                             isInvalid={validInputs.phone === false}
                             type="text"
                             disabled={actions === 'CREATE' ? false : true}
-                            value={userData.phone}
+                            value={userData.phone === '' ? '' : userData.phone}
                             onChange={(event) => {
                                 handleOnchangeInput(event.target.value, 'phone');
                             }}
@@ -189,7 +193,7 @@ function ModalUser(props) {
                                 isInvalid={validInputs.password === false}
                                 type="password"
                                 placeholder=""
-                                value={userData.password}
+                                value={userData.password === '' ? '' : userData.password}
                                 onChange={(event) => {
                                     handleOnchangeInput(event.target.value, 'password');
                                 }}
@@ -218,7 +222,7 @@ function ModalUser(props) {
                             as={'textarea'}
                             type="text"
                             placeholder=""
-                            value={userData.address}
+                            value={userData.address === '' ? '' : userData.address}
                             onChange={(event) => {
                                 handleOnchangeInput(event.target.value, 'address');
                             }}
@@ -231,7 +235,7 @@ function ModalUser(props) {
                             onChange={(event) => {
                                 handleOnchangeInput(event.target.value, 'sex');
                             }}
-                            value={userData.sex}
+                            value={userData.sex === '' ? '' : userData.sex}
                         >
                             <option value={false}>Male</option>
                             <option value={true}>Female</option>
@@ -248,7 +252,7 @@ function ModalUser(props) {
                             onChange={(event) => {
                                 handleOnchangeInput(event.target.value, 'group');
                             }}
-                            value={userData.group}
+                            value={userData.group === '' ? '' : userData.group}
                         >
                             {userGroup.length > 0 &&
                                 userGroup.map((item, index) => {

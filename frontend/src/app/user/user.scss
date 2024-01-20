@@ -2,6 +2,17 @@
     padding-right: 10px;
 }
 
+.container {
+    padding-top: 5px;
+}
+
 .header-modal-delete {
     color: black;
+}
+
+.action {
+    margin-bottom: 10px;
+    .btn-refresh {
+        margin: 0 10px 0 0;
+    }
 }

@@ -124,18 +124,44 @@ const createNewUser = async (data) => {
 
 const updateUser = async (data) => {
     try {
+        if (!data.groupId) {
+            return {
+                EM: 'Update error without groupID!',
+                EC: 2,
+                DT: 'group',
+            };
+        }
         let user = await db.User.findOne({
             where: {
                 id: data.id,
             },
         });
         if (user) {
-            // update
+            await user.update({
+                username: data.username,
+                address: data.address,
+                sex: data.sex,
+                groupId: data.groupId,
+            });
+            return {
+                EM: 'Update user success!',
+                EC: 0,
+                DT: [],
+            };
         } else {
-            // not found
+            return {
+                EM: 'User not found!',
+                EC: -1,
+                DT: [],
+            };
         }
     } catch (e) {
         console.log(e);
+        return {
+            EM: 'Something wrong with services!',
+            EC: 1,
+            DT: [],
+        };
     }
 };
 
