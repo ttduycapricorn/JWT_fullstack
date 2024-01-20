@@ -1,10 +1,12 @@
 import db from '../models/index';
+import { checkEmail, hashPassword, checkPhone, ValidateEmail } from '../service/CRUD_UserService';
 
 const getAllUser = async () => {
     try {
         let users = await db.User.findAll({
             attributes: ['id', 'username', 'email', 'phone', 'sex'],
             include: { model: db.Group, attributes: ['name', 'description'] },
+            order: [['id', 'DESC']],
         });
         if (users) {
             return {
@@ -34,10 +36,11 @@ const getUserWithPagination = async (page, limit) => {
         // công thức
         let offset = (page - 1) * limit;
         const { count, rows } = await db.User.findAndCountAll({
-            attributes: ['id', 'username', 'email', 'phone', 'sex'],
-            include: { model: db.Group, attributes: ['name', 'description'] },
             offset: offset,
             limit: limit,
+            attributes: ['id', 'username', 'email', 'phone', 'sex', 'address', 'groupId'],
+            include: { model: db.Group, attributes: ['name', 'description', 'id'] },
+            order: [['id', 'DESC']],
         });
 
         let data = {
@@ -65,9 +68,57 @@ const getUserWithPagination = async (page, limit) => {
 
 const createNewUser = async (data) => {
     try {
-        await db.User.create({});
+        // check email/phoneNumber đã tồn tại chưa?
+        let ExitEmail = await checkEmail(data.email);
+
+        if (ExitEmail === true) {
+            return {
+                EM: 'The email is already exits!',
+                EC: '1',
+                DT: 'email',
+            };
+        }
+
+        if (ValidateEmail(data.email) === false) {
+            return {
+                EM: 'Email invalidate!',
+                EC: '1',
+                DT: 'email',
+            };
+        }
+
+        let ExitPhone = await checkPhone(data.phone);
+
+        if (ExitPhone === true) {
+            return {
+                EM: 'The phone number is already exits!',
+                EC: '1',
+                DT: 'phone', //data
+            };
+        }
+
+        // hash password
+        let passwordHashed = hashPassword(data.password);
+
+        await db.User.create({
+            ...data,
+            email: data.email,
+            phone: data.phone,
+            password: passwordHashed,
+        });
+
+        return {
+            EM: 'Create new user success!',
+            EC: 0,
+            DT: [],
+        };
     } catch (e) {
         console.log(e);
+        return {
+            EM: 'Something wrong with services!',
+            EC: 1,
+            DT: [],
+        };
     }
 };
 

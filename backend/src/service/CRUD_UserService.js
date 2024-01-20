@@ -22,6 +22,13 @@ const checkEmail = async (userEmail) => {
     } else return false;
 };
 
+// check Email from server
+const ValidateEmail = (email) => {
+    const re =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+};
+
 const checkPhone = async (userPhone) => {
     let isExit = await db.User.findOne({
         where: {
@@ -127,4 +134,8 @@ const loginUser = async (rawUserData) => {
 module.exports = {
     registerNewUser,
     loginUser,
+    hashPassword,
+    checkEmail,
+    checkPhone,
+    ValidateEmail,
 };

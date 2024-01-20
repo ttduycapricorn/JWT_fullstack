@@ -31,8 +31,14 @@ const Read = async (req, res) => {
         });
     }
 };
-const Create = (req, res) => {
+const Create = async (req, res) => {
     try {
+        let data = await userAPIService.createNewUser(req.body);
+        return res.status(200).json({
+            EM: data.EM,
+            EC: data.EC,
+            DT: data.DT, //data
+        });
     } catch (e) {
         console.log('>>check Create func: ', e);
         return res.status(500).json({
@@ -42,10 +48,16 @@ const Create = (req, res) => {
         });
     }
 };
-const Update = (req, res) => {
+const Update = async (req, res) => {
     try {
+        let data = await userAPIService.updateUser(req.body);
+        return res.status(200).json({
+            EM: data.EM,
+            EC: data.EC,
+            DT: data.DT, //data
+        });
     } catch (e) {
-        console.log('>>check Update func: ', e);
+        console.log('>>check Create func: ', e);
         return res.status(500).json({
             EM: 'error from server',
             EC: '-1',

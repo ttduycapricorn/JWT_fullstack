@@ -95,9 +95,10 @@ const updateUserInfo = async (userEmail, userName, id) => {
 };
 
 module.exports = {
-    CreateNewUser: CreateNewUser,
-    getListUser: getListUser,
-    DeleteUser: DeleteUser,
-    getUserById: getUserById,
-    updateUserInfo: updateUserInfo,
+    CreateNewUser,
+    getListUser,
+    DeleteUser,
+    getUserById,
+    updateUserInfo,
+    hashPassword,
 };

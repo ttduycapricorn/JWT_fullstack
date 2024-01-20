@@ -3,21 +3,29 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import ReactPaginate from 'react-paginate';
-import dynamic from 'next/dynamic';
+// import dynamic from 'next/dynamic';
 
 import { fetchAllUser, deleteUser } from '@/services/userService';
 import ModalDeleteUser from '@/components/modals/modalDeleteUser';
+import ModalUser from '@/components/modals/modalUser';
 
 function UserPage() {
     const router = useRouter();
 
     const [listUsers, setListUsers] = useState([]);
+
     const [currentPage, setCurrentPage] = useState(1);
     const [currentLimit, setCurrentLimit] = useState(3);
     const [totalPage, setTotalPage] = useState(0);
+
+    // modal delete
     const [showModalDeleteUser, setShowModalDeleteUser] = useState(false);
     const [dataModal, setDataModal] = useState({});
+
+    // modal update/create user
     const [showModalUser, setShowModalUser] = useState(false);
+    const [actionModalUser, setActionModalUser] = useState();
+    const [dataModalUser, setDataModalUser] = useState({});
 
     useEffect(() => {
         let session = sessionStorage.getItem('account');
@@ -70,13 +78,23 @@ function UserPage() {
     };
 
     // MODAL USER
-    const ModalUser = dynamic(() => import('@/components/modals/modalUser'), { showModalUser: false });
+    // const ModalUser = dynamic(() => import('@/components/modals/modalUser'), { showModalUser: false });
 
     const handleShowUser = () => {
+        setActionModalUser('CREATE');
         setShowModalUser(true);
     };
-    const handleCloseShowUser = () => {
+
+    const handleCloseShowUser = async () => {
         setShowModalUser(false);
+        setDataModalUser({});
+        await fetchUsers();
+    };
+
+    const handleEditUser = (user) => {
+        setShowModalUser(true);
+        setDataModalUser(user);
+        setActionModalUser('UPDATE');
     };
 
     return (
@@ -99,6 +117,7 @@ function UserPage() {
                             className="btn btn-success"
                             onClick={() => {
                                 handleShowUser();
+                                setActionModalUser('CREATE');
                             }}
                         >
                             Add new user
@@ -113,6 +132,7 @@ function UserPage() {
                                     <th scope="col">Email</th>
                                     <th scope="col">User name</th>
                                     <th scope="col">Group</th>
+                                    <th scope="col">Description</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -121,13 +141,21 @@ function UserPage() {
                                     listUsers.map((item, index) => {
                                         return (
                                             <tr key={index}>
-                                                <td>{index + 1}</td>
+                                                <td>{(currentPage - 1) * currentLimit + index + 1}</td>
                                                 <td>{item.id}</td>
                                                 <td>{item.email}</td>
                                                 <td>{item.username}</td>
                                                 <td>{item.Group ? item.Group.name : ''}</td>
+                                                <td>{item.Group ? item.Group.description : ''}</td>
                                                 <td>
-                                                    <button className="btn btn-warning mx-3">Update</button>
+                                                    <button
+                                                        className="btn btn-warning mx-3"
+                                                        onClick={() => {
+                                                            handleEditUser(item);
+                                                        }}
+                                                    >
+                                                        Update
+                                                    </button>
                                                     <button
                                                         className="btn btn-danger"
                                                         onClick={() => {
@@ -183,10 +211,11 @@ function UserPage() {
 
             <ModalUser
                 show={showModalUser}
+                actions={actionModalUser}
+                data_modal_user={dataModalUser}
                 onHide={() => {
                     handleCloseShowUser();
                 }}
-                title={'Create new User'}
             />
         </>
     );

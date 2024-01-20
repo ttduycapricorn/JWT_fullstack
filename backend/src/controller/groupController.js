@@ -18,4 +18,6 @@ const readFunc = async (req, res) => {
     }
 };
 
+const createFunc = (req, res) => {};
+
 module.exports = { readFunc };
