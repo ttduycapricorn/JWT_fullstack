@@ -47,12 +47,13 @@ function UserPage() {
 
     const fetchUsers = async () => {
         let response = await fetchAllUser(currentPage, currentLimit);
-        if (response && response.data && response.data.EC === 0) {
-            // setListUsers(response.data.DT);
-            // console.log(response.data.DT);
+        if (response && response.EC === 0) {
+            console.log(response.DT);
+            // setListUsers(response.DT);
+            // console.log(response.DT);
 
-            setTotalPage(response.data.DT.totalPages);
-            setListUsers(response.data.DT.users);
+            setTotalPage(response.DT.totalPages);
+            setListUsers(response.DT.users);
         }
     };
 
@@ -63,12 +64,12 @@ function UserPage() {
 
     const handleDelete = async (user) => {
         let response = await deleteUser(user);
-        if (response && response.data && response.data.EC === 0) {
-            toast.success(response.data.EM);
+        if (response && response.EC === 0) {
+            toast.success(response.EM);
             await fetchUsers();
             handleClose();
         } else {
-            toast.error(response.data.EM);
+            toast.error(response.EM);
         }
     };
 

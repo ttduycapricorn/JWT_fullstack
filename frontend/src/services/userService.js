@@ -1,7 +1,9 @@
-import axios from 'axios';
+// import axios from 'axios';
+
+import axios from '@/customize/axios';
 
 const registerNewUser = (email, phone, username, password) => {
-    return axios.post('http://localhost:8080/api/register', {
+    return axios.post('/api/register', {
         email,
         phone,
         username,
@@ -10,32 +12,32 @@ const registerNewUser = (email, phone, username, password) => {
 };
 
 const loginUser = (email, password) => {
-    return axios.post('http://localhost:8080/api/login', {
+    return axios.post('/api/login', {
         email,
         password,
     });
 };
 
 const fetchAllUser = (page, limit) => {
-    return axios.get(`http://localhost:8080/api/user/read?page=${page}&limit=${limit}`);
+    return axios.get(`/api/user/read?page=${page}&limit=${limit}`);
 };
 
 const deleteUser = (user) => {
-    return axios.delete('http://localhost:8080/api/user/delete', { data: { id: user.id } });
+    return axios.delete('/api/user/delete', { data: { id: user.id } });
 };
 
 const fetchGroup = () => {
-    return axios.get('http://localhost:8080/api/group/read');
+    return axios.get('/api/group/read');
 };
 
 const createNewUser = (userData) => {
-    return axios.post('http://localhost:8080/api/user/create', {
+    return axios.post('/api/user/create', {
         ...userData,
     });
 };
 
 const updateUser = (userData) => {
-    return axios.put('http://localhost:8080/api/user/update', {
+    return axios.put('/api/user/update', {
         ...userData,
     });
 };

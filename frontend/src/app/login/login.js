@@ -119,19 +119,19 @@ function Login() {
         let response = await loginUser(emailLogin, passwordLogin);
 
         // if đăng nhập thành công
-        if (response && response.data && +response.data.EC === 0) {
+        if (response && +response.EC === 0) {
             // success
             let data = {
                 isAuthenticated: true,
                 token: 'fake token',
             };
             sessionStorage.setItem('account', JSON.stringify(data));
-            toast.success(response.data.EM);
+            toast.success(response.EM);
             router.back();
         }
-        if (response && response.data && +response.data.EC !== 0) {
+        if (response && +response.EC !== 0) {
             // error
-            toast.error(response.data.EM);
+            toast.error(response.EM);
         }
     };
 
