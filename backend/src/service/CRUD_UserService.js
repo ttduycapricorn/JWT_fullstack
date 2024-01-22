@@ -1,7 +1,10 @@
+require('dotenv').config();
 import bcrypt from 'bcryptjs';
 import { Op } from 'sequelize';
 
 import db from '../models/index';
+import { getGroupWithRoles } from '../service/JWTService';
+import { CreateJWT } from '../middleware/JWTActions';
 
 // thuật toán hash password
 var salt = bcrypt.genSaltSync(10);
@@ -72,6 +75,8 @@ const registerNewUser = async (rawUserData) => {
             username: rawUserData.username,
             password: passwordHashed,
             phone: rawUserData.phone,
+            // mặc định chúng ta sẽ gám group cho người mới là only view
+            groupId: 5,
         });
 
         return {
@@ -107,10 +112,24 @@ const loginUser = async (rawUserData) => {
             let checkPassword = checkPasswordHash(rawUserData.password, user.password);
 
             if (checkPassword === true) {
+                // let token
+
+                // test roles
+                let GroupWithRoles = await getGroupWithRoles(user);
+                let payLoad = {
+                    email: user.email,
+                    GroupWithRoles,
+                    expiresIn: process.env.JWT_EXPIRES, //60 ms
+                };
+
+                let token = CreateJWT(payLoad);
                 return {
                     EM: 'OK!',
                     EC: '0',
-                    DT: '',
+                    DT: {
+                        access_token: token,
+                        GroupWithRoles,
+                    },
                 };
             } else {
                 return {

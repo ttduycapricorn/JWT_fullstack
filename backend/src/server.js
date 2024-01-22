@@ -9,8 +9,6 @@ import configCORS from './config/cors';
 
 require('dotenv').config();
 
-import { CreateJWT, verifyToken } from './middleware/JWTActions';
-
 const app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -26,14 +24,6 @@ configViewEngine(app);
 
 // test connection database
 connectDB();
-
-// test JWT
-CreateJWT();
-let decodedData = verifyToken(
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOYW1lIjoiVHLhuqduIFRow6FpIER1eSIsImFkZHJlc3MiOiJDYW4gVGjGoSIsImlhdCI6MTcwNTg1MDI1OH0.7fvmOcXrzBwxFlF4dGG851tFpS9zJj8qtBatHkYe2rE',
-);
-
-console.log(decodedData);
 
 // init web routes
 initWebRoutes(app);
