@@ -107,8 +107,6 @@ const loginUser = async (rawUserData) => {
         });
 
         if (user) {
-            console.log('>>>Found user with email/phone!');
-
             let checkPassword = checkPasswordHash(rawUserData.password, user.password);
 
             if (checkPassword === true) {

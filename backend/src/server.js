@@ -31,6 +31,10 @@ initWebRoutes(app);
 // init API routes
 initAPIRoutes(app);
 
+app.use((req, res) => {
+    return res.send('404 not found!');
+});
+
 app.listen(PORT, () => {
     console.log('>>>JWT backend is running on the port = ', PORT);
 });
