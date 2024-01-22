@@ -158,25 +158,25 @@ function UserPage() {
                                                 <td>{item.username}</td>
                                                 <td>{item.Group ? item.Group.name : ''}</td>
                                                 <td>{item.Group ? item.Group.description : ''}</td>
-                                                <td>
-                                                    <button
-                                                        className="btn btn-warning mx-3"
-                                                        onClick={() => {
-                                                            handleEditUser(item);
-                                                        }}
-                                                    >
-                                                        <FontAwesomeIcon icon={faPencilAlt} />
-                                                        Update
-                                                    </button>
-                                                    <button
-                                                        className="btn btn-danger"
-                                                        onClick={() => {
-                                                            handleShow(item);
-                                                        }}
-                                                    >
-                                                        <FontAwesomeIcon icon={faTrash} />
-                                                        Delete
-                                                    </button>
+                                                <td className="actions">
+                                                    <span title="edit">
+                                                        <FontAwesomeIcon
+                                                            className="edit"
+                                                            icon={faPencilAlt}
+                                                            onClick={() => {
+                                                                handleEditUser(item);
+                                                            }}
+                                                        />
+                                                    </span>
+                                                    <span title="delete">
+                                                        <FontAwesomeIcon
+                                                            className="delete"
+                                                            icon={faTrash}
+                                                            onClick={() => {
+                                                                handleShow(item);
+                                                            }}
+                                                        />
+                                                    </span>
                                                 </td>
                                                 <ModalDeleteUser
                                                     show={showModalDeleteUser}

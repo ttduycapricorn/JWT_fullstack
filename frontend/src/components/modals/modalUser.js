@@ -235,7 +235,7 @@ function ModalUser(props) {
                             onChange={(event) => {
                                 handleOnchangeInput(event.target.value, 'sex');
                             }}
-                            value={userData.sex === '' ? '' : userData.sex}
+                            value={userData.sex === '' ? '' : userData.sex || ''}
                         >
                             <option value={false}>Male</option>
                             <option value={true}>Female</option>
@@ -252,7 +252,7 @@ function ModalUser(props) {
                             onChange={(event) => {
                                 handleOnchangeInput(event.target.value, 'group');
                             }}
-                            value={userData.group === '' ? '' : userData.group}
+                            value={userData.group === '' ? '' : userData.group || ''}
                         >
                             {userGroup.length > 0 &&
                                 userGroup.map((item, index) => {

@@ -16,3 +16,26 @@
         margin: 0 10px 0 0;
     }
 }
+
+.actions {
+    padding-right: 10px;
+}
+
+.edit,
+.delete {
+    font-weight: 700;
+    transition: 0.4s;
+}
+
+.edit {
+    margin-right: 25px;
+    &:hover {
+        color: orange;
+    }
+}
+
+.delete {
+    &:hover {
+        color: red;
+    }
+}
