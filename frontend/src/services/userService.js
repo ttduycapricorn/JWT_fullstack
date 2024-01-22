@@ -12,10 +12,16 @@ const registerNewUser = (email, phone, username, password) => {
 };
 
 const loginUser = (email, password) => {
-    return axios.post('/api/login', {
-        email,
-        password,
-    });
+    return axios.post(
+        '/api/login',
+        {
+            email,
+            password,
+        },
+        // credentials: 'include',
+        // https://stackoverflow.com/questions/76473840/not-able-to-set-cookies-in-browser-in-express-and-react
+        { withCredentials: true },
+    );
 };
 
 const fetchAllUser = (page, limit) => {

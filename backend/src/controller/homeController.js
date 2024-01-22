@@ -5,6 +5,9 @@ const handleHelloWorld = (req, res) => {
 };
 
 const handleUserPage = async (req, res) => {
+    // Cookies that have not been signed
+    console.log('Cookies: ', req.cookies);
+
     let userList = await userService.getListUser();
     return res.render('user.ejs', { userList });
 };
@@ -59,10 +62,10 @@ const handleUpdateUser = async (req, res) => {
 };
 
 module.exports = {
-    handleHelloWorld: handleHelloWorld,
-    handleUserPage: handleUserPage,
-    handleCreatedUser: handleCreatedUser,
-    handleDeleteUser: handleDeleteUser,
-    handleUpdateUserPage: handleUpdateUserPage,
-    handleUpdateUser: handleUpdateUser,
+    handleHelloWorld,
+    handleUserPage,
+    handleCreatedUser,
+    handleDeleteUser,
+    handleUpdateUserPage,
+    handleUpdateUser,
 };

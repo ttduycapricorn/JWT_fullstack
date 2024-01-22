@@ -40,7 +40,7 @@ const getListUser = async () => {
         nest: true,
     });
 
-    console.log('>>Check new User: ', newUser);
+    // console.log('>>Check new User: ', newUser);
 
     let role = await db.Group.findOne({
         where: { id: 1 },
@@ -48,7 +48,7 @@ const getListUser = async () => {
         nest: true,
     });
 
-    console.log('>>check New role: ', role);
+    // console.log('>>check New role: ', role);
 
     let r = await db.Role.findAll({
         include: { model: db.Group, where: { id: 1 } },

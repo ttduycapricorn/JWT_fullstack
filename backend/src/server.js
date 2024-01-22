@@ -1,5 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 
 import initWebRoutes from './route/web';
 import configViewEngine from './config/viewEngine';
@@ -24,6 +25,9 @@ configViewEngine(app);
 
 // test connection database
 connectDB();
+
+// config cookie -parser
+app.use(cookieParser());
 
 // init web routes
 initWebRoutes(app);
