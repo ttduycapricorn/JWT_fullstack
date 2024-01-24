@@ -1,5 +1,4 @@
 'use client';
-import Tippy from '@tippyjs/react';
 import Link from 'next/link';
 
 import { menuItemsData } from './menuItemData';
@@ -27,11 +26,11 @@ function Navbar() {
                                 <div className="menus">
                                     {menuItemsData.map((menu, index) => {
                                         return (
-                                            <Tippy content={menu.title} key={index}>
+                                            <div content={menu.title} key={index}>
                                                 <Link className="nav-item nav-link" href={menu.url} key={index}>
                                                     {menu.title}
                                                 </Link>
-                                            </Tippy>
+                                            </div>
                                         );
                                     })}
                                 </div>
