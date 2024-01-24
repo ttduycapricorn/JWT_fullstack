@@ -78,7 +78,7 @@ instance.interceptors.response.use(
 
             // generic api error (server related) unexpected
             default: {
-                toast.error(error.message);
+                // toast.error(error.message);
                 return Promise.reject(error.message, 500);
             }
         }
