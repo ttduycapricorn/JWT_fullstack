@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import _ from 'lodash';
 
 import Navbar from '@/components/layout/navbar';
@@ -14,9 +14,6 @@ function UserPageLayout({ children }) {
             setAccount(JSON.parse(session));
         }
     }, []);
-
-    const year = new Date();
-    let getyear = year.getFullYear();
 
     return (
         <>

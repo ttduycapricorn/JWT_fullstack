@@ -56,7 +56,7 @@ const checkUserPermission = (req, res, next) => {
     if (nonSecurePaths.includes(req.path)) return next();
 
     if (req.user) {
-        let email = req.user.email;
+        // let email = req.user.email;
         let roles = req.user.GroupWithRoles.Roles;
         let currentURL = req.path;
         if (!roles || roles.length === 0) {
@@ -80,9 +80,14 @@ const checkUserPermission = (req, res, next) => {
     }
 };
 
+const checkUserCanUpdate = (req, res, next) => {
+    console.log('chung ta cua hien tai');
+};
+
 module.exports = {
     CreateJWT,
     verifyToken,
     checkUserJWT,
     checkUserPermission,
+    checkUserCanUpdate,
 };
