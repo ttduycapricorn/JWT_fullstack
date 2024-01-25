@@ -133,7 +133,6 @@ function Login() {
                 token,
                 account: { GroupWithRoles, email, username },
             };
-            sessionStorage.setItem('account', JSON.stringify(data));
             loginContext(data);
             toast.success(response.EM);
             router.push('/user');

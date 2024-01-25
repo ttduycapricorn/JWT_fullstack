@@ -35,12 +35,16 @@ function UserPage() {
     const [dataModalUser, setDataModalUser] = useState({});
 
     useEffect(() => {
-        console.log('>>check user context : ', user);
-        let session = sessionStorage.getItem('account');
-        if (session) {
-            fetchUsers();
-        } else {
-            toast.warning('You don not Login in system!');
+        // console.log('>>check user context : ', user);
+        // let session = sessionStorage.getItem('account');
+        // if (session) {
+        //     fetchUsers();
+        // } else {
+        //     toast.warning('You don not Login in system!');
+        //     router.push('/login');
+        // }
+
+        if (!user || user.isAuthenticated === false) {
             router.push('/login');
         }
     }, []);
@@ -112,7 +116,7 @@ function UserPage() {
 
     return (
         <>
-            <div className="manage_container container">
+            <div className="manage_container">
                 <div className="userHeader">
                     <div className="title">
                         <h3>MANAGE USERS</h3>
@@ -199,7 +203,7 @@ function UserPage() {
                             </tbody>
                         </table>
                         {totalPage > 0 && (
-                            <div className="container">
+                            <div className="">
                                 <ReactPaginate
                                     nextLabel="next >"
                                     onPageChange={handlePageClick}

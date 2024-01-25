@@ -18,16 +18,16 @@ const router = express.Router();
 
 // https://stackoverflow.com/questions/12921658/use-specific-middleware-in-express-for-all-paths-except-a-specific-one
 
-const checkUserLogin = (req, res, next) => {
-    const nonSecurePaths = ['/register', '/login'];
-    if (nonSecurePaths.includes(req.path)) return next();
+// const checkUserLogin = (req, res, next) => {
+//     const nonSecurePaths = ['/register', '/login'];
+//     if (nonSecurePaths.includes(req.path)) return next();
 
-    //authenticate user
-    if (user) {
-        next();
-    } else {
-    }
-};
+//     //authenticate user
+//     if (user) {
+//         next();
+//     } else {
+//     }
+// };
 
 // express app
 const initAPIRoutes = (app) => {
@@ -36,6 +36,7 @@ const initAPIRoutes = (app) => {
 
     router.post('/register', apiController.handleRegister);
     router.post('/login', apiController.handleLogin);
+    router.get('/account', userController.GetUserAccount);
 
     router.get('/user/read', userController.Read);
     router.post('/user/create', userController.Create);
