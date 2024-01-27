@@ -48,8 +48,4 @@ const updateUser = (userData) => {
     });
 };
 
-const getUserAccount = () => {
-    return axios.get('/api/account');
-};
-
-export { registerNewUser, loginUser, fetchAllUser, deleteUser, fetchGroup, createNewUser, updateUser, getUserAccount };
+export { registerNewUser, loginUser, fetchAllUser, deleteUser, fetchGroup, createNewUser, updateUser };

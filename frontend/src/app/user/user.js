@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import ReactPaginate from 'react-paginate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,13 +10,10 @@ import { faPlus, faRefresh, faTrash, faPencilAlt } from '@fortawesome/free-solid
 import { fetchAllUser, deleteUser, fetchGroup } from '@/services/userService';
 import ModalDeleteUser from '@/components/modals/modalDeleteUser';
 import ModalUser from '@/components/modals/modalUser';
-import { UserContext } from '@/context/userContext';
 
 import './user.scss';
 
 function UserPage() {
-    const { user } = useContext(UserContext);
-
     const router = useRouter();
 
     const [listUsers, setListUsers] = useState([]);
@@ -35,16 +32,11 @@ function UserPage() {
     const [dataModalUser, setDataModalUser] = useState({});
 
     useEffect(() => {
-        // console.log('>>check user context : ', user);
-        // let session = sessionStorage.getItem('account');
-        // if (session) {
-        //     fetchUsers();
-        // } else {
-        //     toast.warning('You don not Login in system!');
-        //     router.push('/login');
-        // }
-
-        if (!user || user.isAuthenticated === false) {
+        let session = sessionStorage.getItem('account');
+        if (session) {
+            fetchUsers();
+        } else {
+            toast.warning('You don not Login in system!');
             router.push('/login');
         }
     }, []);
@@ -56,7 +48,7 @@ function UserPage() {
     const fetchUsers = async () => {
         let response = await fetchAllUser(currentPage, currentLimit);
         if (response && response.EC === 0) {
-            // console.log(response.DT);
+            console.log(response.DT);
             // setListUsers(response.DT);
             // console.log(response.DT);
 
@@ -116,7 +108,7 @@ function UserPage() {
 
     return (
         <>
-            <div className="manage_container">
+            <div className="manage_container container">
                 <div className="userHeader">
                     <div className="title">
                         <h3>MANAGE USERS</h3>
@@ -203,7 +195,7 @@ function UserPage() {
                             </tbody>
                         </table>
                         {totalPage > 0 && (
-                            <div className="">
+                            <div className="container">
                                 <ReactPaginate
                                     nextLabel="next >"
                                     onPageChange={handlePageClick}

@@ -1,17 +1,8 @@
-import { UserContext } from '@/context/userContext';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 
-import Login from '@/app/login/login';
 const withAuth = (Component) => {
-    const { user } = useContext(UserContext);
-
-    useEffect(() => {
-        if (user && user.isAuthenticated === true) {
-        }
-    }, []);
-
     const Auth = (props) => {
-        // Login data added to props via red    ux-store (or use react context for example)
+        // Login data added to props via redux-store (or use react context for example)
         const { isLoggedIn } = props;
 
         // If user is not logged in, return login component
@@ -31,4 +22,10 @@ const withAuth = (Component) => {
     return Auth;
 };
 
-export default withAuth;
+function PrivateRotes(props) {
+    useEffect(() => {}, []);
+
+    return <></>;
+}
+
+export default PrivateRotes;

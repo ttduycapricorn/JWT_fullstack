@@ -117,7 +117,6 @@ const loginUser = async (rawUserData) => {
                 let payLoad = {
                     email: user.email,
                     GroupWithRoles,
-                    username: user.username,
                     expiresIn: process.env.JWT_EXPIRES, //60 ms
                 };
 
@@ -128,8 +127,6 @@ const loginUser = async (rawUserData) => {
                     DT: {
                         access_token: token,
                         GroupWithRoles,
-                        email: user.email,
-                        username: user.username,
                     },
                 };
             } else {

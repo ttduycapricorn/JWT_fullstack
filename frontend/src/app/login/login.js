@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef, useContext } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
 import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
@@ -7,11 +7,8 @@ import { useRouter } from 'next/navigation';
 
 import './login.scss';
 import { registerNewUser, loginUser } from '@/services/userService';
-import { UserContext } from '@/context/userContext';
 
 function Login() {
-    let { loginContext } = useContext(UserContext);
-
     // Logic Register
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
@@ -124,18 +121,13 @@ function Login() {
         // if đăng nhập thành công
         if (response && +response.EC === 0) {
             // success
-            let GroupWithRoles = response.DT.GroupWithRoles;
-            let email = response.DT.email;
-            let username = response.DT.username;
-            let token = response.DT.access_token;
             let data = {
                 isAuthenticated: true,
-                token,
-                account: { GroupWithRoles, email, username },
+                token: 'fake token',
             };
-            loginContext(data);
+            sessionStorage.setItem('account', JSON.stringify(data));
             toast.success(response.EM);
-            router.push('/user');
+            router.back();
         }
         if (response && +response.EC !== 0) {
             // error
