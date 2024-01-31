@@ -1,6 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { toast } from 'react-toastify';
 import ReactPaginate from 'react-paginate';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,10 +10,15 @@ import { faPlus, faRefresh, faTrash, faPencilAlt } from '@fortawesome/free-solid
 import { fetchAllUser, deleteUser, fetchGroup } from '@/services/userService';
 import ModalDeleteUser from '@/components/modals/modalDeleteUser';
 import ModalUser from '@/components/modals/modalUser';
+import { UserContext } from '@/context/useContext';
 
 import './user.scss';
 
 function UserPage() {
+    new Promise((resolve) => setTimeout(resolve, 3000));
+
+    const { user } = useContext(UserContext);
+
     const router = useRouter();
 
     const [listUsers, setListUsers] = useState([]);
@@ -32,13 +37,16 @@ function UserPage() {
     const [dataModalUser, setDataModalUser] = useState({});
 
     useEffect(() => {
-        let session = sessionStorage.getItem('account');
-        if (session) {
-            fetchUsers();
-        } else {
-            toast.warning('You don not Login in system!');
-            router.push('/login');
-        }
+        // let session = sessionStorage.getItem('account');
+        // if (session) {
+        //     fetchUsers();
+        // } else {
+        //     toast.warning('You don not Login in system!');
+        //     router.push('/login');
+        // }
+        // if (!user || user.isAuthenticated === false) {
+        //     router.push('/login');
+        // }
     }, []);
 
     useEffect(() => {
@@ -48,10 +56,9 @@ function UserPage() {
     const fetchUsers = async () => {
         let response = await fetchAllUser(currentPage, currentLimit);
         if (response && response.EC === 0) {
-            console.log(response.DT);
+            // console.log(response.DT);
             // setListUsers(response.DT);
             // console.log(response.DT);
-
             setTotalPage(response.DT.totalPages);
             setListUsers(response.DT.users);
         }
@@ -108,7 +115,7 @@ function UserPage() {
 
     return (
         <>
-            <div className="manage_container container">
+            <div className="manage_container ">
                 <div className="userHeader">
                     <div className="title">
                         <h3>MANAGE USERS</h3>

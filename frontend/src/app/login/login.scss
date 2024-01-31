@@ -61,20 +61,3 @@
         font-weight: 800;
     }
 }
-
-.icon-div {
-    position: relative;
-    max-width: 100%;
-    display: table-cell;
-
-    .icon-eye {
-        padding: 7px;
-        color: black;
-        cursor: pointer;
-        position: absolute;
-        right: 0;
-        top: 4px;
-        &:hover {
-        }
-    }
-}

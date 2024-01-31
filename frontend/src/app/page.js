@@ -1,15 +1,17 @@
-import Navigation from '@/components/layout/navbar';
 import Sidebar from '@/components/layout/sidebar';
 
 import './page.scss';
+import Navbar from '@/components/layout/navbar/navbar';
 
 function Home() {
     return (
         <>
-            <Navigation />
             <div className="container_main">
-                <Sidebar />
-                <h1>HOME PAGE!</h1>
+                <Navbar />
+                <div className="content">
+                    <Sidebar />
+                    <h1>HOME PAGE!</h1>
+                </div>
             </div>
         </>
     );

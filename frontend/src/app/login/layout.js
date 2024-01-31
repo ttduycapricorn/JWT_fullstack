@@ -3,8 +3,10 @@ import Navbar from '@/components/layout/navbar';
 function LayoutLoginPage({ children }) {
     return (
         <>
-            <Navbar />
-            <main>{children}</main>
+            <main>
+                <Navbar />
+                {children}
+            </main>
         </>
     );
 }

@@ -37,7 +37,10 @@ const handleRegister = async (req, res) => {
 const handleLogin = async (req, res) => {
     try {
         let data = await CRUD_UserService.loginUser(req.body);
-
+        if (data && data.DT.access_token) {
+            // set cookie
+            res.cookie('jwt', data.DT.access_token, { httpOnly: true, maxAge: 60 * 60 * 1000 });
+        }
         // set cookie
         res.cookie('jwt', data.DT.access_token, { httpOnly: true });
 
