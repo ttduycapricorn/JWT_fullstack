@@ -54,6 +54,7 @@ function UserProvider({ children }) {
 
     useEffect(() => {
         if (pathName !== '/' || window.location.pathname !== '/login') {
+            // window.location.href = '/login';
             fetchUser();
         }
     }, []);

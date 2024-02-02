@@ -134,6 +134,7 @@ function Login() {
             };
 
             loginContext(data);
+            localStorage.setItem('jwt', token);
             toast.success(response.EM);
             router.push('/user');
         }
