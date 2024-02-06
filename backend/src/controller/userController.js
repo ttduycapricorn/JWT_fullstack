@@ -26,7 +26,7 @@ const Read = async (req, res) => {
         console.log('>>check error: ', e);
         return res.status(500).json({
             EM: 'error from server',
-            EC: '-1',
+            EC: -1,
             DT: '', //data
         });
     }
@@ -43,7 +43,7 @@ const Create = async (req, res) => {
         console.log('>>check Create func: ', e);
         return res.status(500).json({
             EM: 'error from server',
-            EC: '-1',
+            EC: -1,
             DT: '', //data
         });
     }
@@ -60,7 +60,7 @@ const Update = async (req, res) => {
         console.log('>>check Create func: ', e);
         return res.status(500).json({
             EM: 'error from server',
-            EC: '-1',
+            EC: -1,
             DT: '', //data
         });
     }
@@ -79,7 +79,7 @@ const Delete = async (req, res) => {
         console.log('>>check Delete func: ', e);
         return res.status(500).json({
             EM: 'error from server',
-            EC: '-1',
+            EC: -1,
             DT: '', //data
         });
     }
@@ -88,7 +88,7 @@ const Delete = async (req, res) => {
 const GetUserAccount = async (req, res) => {
     return res.status(200).json({
         EM: 'OK!',
-        EC: '0',
+        EC: 0,
         DT: {
             access_token: req.token,
             GroupWithRoles: req.user.GroupWithRoles,

@@ -37,16 +37,10 @@ function UserPage() {
     const [dataModalUser, setDataModalUser] = useState({});
 
     useEffect(() => {
-        // let session = sessionStorage.getItem('account');
-        // if (session) {
-        //     fetchUsers();
-        // } else {
-        //     toast.warning('You don not Login in system!');
-        //     router.push('/login');
-        // }
-        // if (!user || user.isAuthenticated === false) {
-        //     router.push('/login');
-        // }
+        if (user.isAuthenticated !== true) {
+            toast.error(`you don't have login!`);
+            router.push('/login');
+        }
     }, []);
 
     useEffect(() => {

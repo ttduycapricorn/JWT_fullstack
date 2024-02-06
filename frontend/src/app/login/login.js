@@ -5,9 +5,10 @@ import Modal from 'react-bootstrap/Modal';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
-import './login.scss';
 import { registerNewUser, loginUser } from '@/services/userService';
 import { UserContext } from '@/context/useContext';
+
+import './login.scss';
 
 function Login() {
     let { loginContext } = useContext(UserContext);

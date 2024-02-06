@@ -10,10 +10,11 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import { UserProvider } from '@/context/useContext';
 import Footer from '@/components/layout/footer';
 import Loading from './loading';
+import NavHeader from '@/components/layout/navbar/navbar';
 
 import './globals.scss';
 
-// import Navbar from '@/components/layout/navbar';
+// import navbar from '@/components/layout/navbar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -34,7 +35,11 @@ export default function RootLayout({ children }) {
                         pauseOnHover={false}
                         theme="dark"
                     />
-                    <Suspense fallback={<Loading />}>{children}</Suspense>
+                    <Suspense fallback={<Loading />}>
+                        <NavHeader />
+
+                        {children}
+                    </Suspense>
                     <Footer />
                 </body>
             </UserProvider>

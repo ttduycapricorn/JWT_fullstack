@@ -49,6 +49,7 @@ function ModalUser(props) {
 
     const getGroup = async () => {
         let response = await fetchGroup();
+        console.log('>>check response Group: ', response);
         if (response && response.EC === 0) {
             setUserGroup(response.DT);
             // toast.success(response.EM);

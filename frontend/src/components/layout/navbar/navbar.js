@@ -1,62 +1,48 @@
 'use client';
+import classNames from 'classnames/bind';
 import { useContext } from 'react';
 import { usePathname } from 'next/navigation';
-import Tippy from '@tippyjs/react';
 import Link from 'next/link';
 
 import { menuItemsData } from './menuItemData';
 import { UserContext } from '@/context/useContext';
 
-import './navbar.scss';
+import styles from './navbar.module.scss';
 
-function Navbar() {
+const cx = classNames.bind(styles);
+
+function NavHeader() {
     const { user } = useContext(UserContext);
     const pathname = usePathname();
     return (
         <>
             {(user && user.isAuthenticated === true) || pathname === '/' ? (
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                    <div className="container-fluid">
-                        <Link href="/" className="navbar-brand">
-                            Brand
+                <div className={cx('wrapper')}>
+                    <div className={cx('container-header')}>
+                        <Link href={'/'}>
+                            <img
+                                className={cx('logo-header')}
+                                src="https://dev-to-uploads.s3.amazonaws.com/uploads/logos/resized_logo_UQww2soKuUsjaOGNB38o.png"
+                            />
                         </Link>
-                        <button
-                            type="button"
-                            className="navbar-toggler"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#navbarCollapse"
-                        >
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
-                        <div className="collapse navbar-collapse" id="navbarCollapse">
-                            <div className="navbar-nav">
-                                {
-                                    <div className="menus">
-                                        {menuItemsData.map((menu, index) => {
-                                            return (
-                                                <div content={menu.title} key={index}>
-                                                    <Link className="nav-item nav-link" href={menu.url} key={index}>
-                                                        {menu.title}
-                                                    </Link>
-                                                </div>
-                                            );
-                                        })}
+                        <div className={cx('menus')}>
+                            {menuItemsData.map((item, index) => {
+                                return (
+                                    <div className={cx('menu')} content={item.title} key={index}>
+                                        <Link key={index} href={item.url} onClick={item.onclick}>
+                                            {item.title}
+                                        </Link>
                                     </div>
-                                }
-                            </div>
-                            <div className="navbar-nav ms-auto">
-                                <Link href="/login" className="nav-item nav-link">
-                                    Login
-                                </Link>
-                            </div>
+                                );
+                            })}
                         </div>
                     </div>
-                </nav>
+                </div>
             ) : (
-                <> </>
+                <></>
             )}
         </>
     );
 }
 
-export default Navbar;
+export default NavHeader;

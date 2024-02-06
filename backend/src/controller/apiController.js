@@ -13,7 +13,7 @@ const handleRegister = async (req, res) => {
         if (!req.body.email || !req.body.phone || !req.body.password) {
             return res.status(200).json({
                 EM: 'Missing required parameter',
-                EC: '1',
+                EC: 1,
                 DT: '', //data
             });
         }
@@ -28,7 +28,7 @@ const handleRegister = async (req, res) => {
         console.log('>>check error: ', e);
         return res.status(500).json({
             EM: 'error from server',
-            EC: '-1',
+            EC: -1,
             DT: '', //data
         });
     }
@@ -53,6 +53,25 @@ const handleLogin = async (req, res) => {
         console.log('>>check Error: ', e);
         return res.status(500).json({
             EM: 'error from server',
+            EC: -1,
+            DT: '',
+        });
+    }
+};
+
+const handleLogout = (req, res) => {
+    try {
+        res.clearCookie('jwt');
+
+        return res.status(200).json({
+            EM: 'clear cookie success!',
+            EC: 0,
+            DT: '',
+        });
+    } catch (e) {
+        console.log('>>check error: ', e);
+        return res.status(500).json({
+            EM: 'error from server',
             EC: '-1',
             DT: '',
         });
@@ -63,4 +82,5 @@ module.exports = {
     testAPI,
     handleRegister,
     handleLogin,
+    handleLogout,
 };

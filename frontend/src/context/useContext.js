@@ -25,15 +25,13 @@ function UserProvider({ children }) {
     };
 
     // Logout updates the user data to default
-    const logout = () => {
-        setUser((user) => ({
-            name: '',
-            auth: false,
-        }));
+    const logoutContext = () => {
+        setUser({ ...userData, isLoading: false });
     };
 
     const fetchUser = async () => {
         let response = await getUserAccount();
+        console.log(response);
         if (response && response.EC === 0) {
             let GroupWithRoles = response.DT.GroupWithRoles;
             let email = response.DT.email;
@@ -53,13 +51,15 @@ function UserProvider({ children }) {
     };
 
     useEffect(() => {
-        if (pathName !== '/' || window.location.pathname !== '/login') {
+        if (pathName !== '/' && window.location.pathname !== '/login') {
             // window.location.href = '/login';
             fetchUser();
+        } else {
+            setUser({ ...user, isLoading: false });
         }
     }, []);
 
-    return <UserContext.Provider value={{ user, loginContext, logout }}>{children}</UserContext.Provider>;
+    return <UserContext.Provider value={{ user, loginContext, logoutContext }}>{children}</UserContext.Provider>;
 }
 
 export { UserProvider, UserContext };

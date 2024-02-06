@@ -1,32 +1,24 @@
+import { LogoutUser } from '@/services/userService';
+import { toast } from 'react-toastify';
+
 export const menuItemsData = [
     {
-        title: 'Home',
-        url: '/',
+        title: 'Logout',
+        onclick: () => {
+            if (LogoutUser()) {
+                localStorage.removeItem('jwt');
+                location.reload();
+                toast.success('LOG OUT SUCCESSFULLY!');
+            }
+        },
+        url: {},
     },
     {
-        title: 'Login',
-        url: '/login',
-    },
-    {
-        title: 'User',
+        title: 'Users',
         url: '/user',
     },
     {
-        title: 'Services',
-        url: '/services',
-        submenu: [
-            {
-                title: 'Web Design',
-                url: 'web-design',
-            },
-            {
-                title: 'Web Development',
-                url: 'web-dev',
-            },
-            {
-                title: 'SEO',
-                url: 'seo',
-            },
-        ],
+        title: 'Roles',
+        url: '/roles',
     },
 ];

@@ -1,13 +1,10 @@
 'use client';
-import Navbar from '@/components/layout/navbar';
+import NavHeader from '@/components/layout/navbar';
 
 function UserPageLayout({ children }) {
     return (
         <>
-            <div>
-                <Navbar />
-                {children}
-            </div>
+            <div>{children}</div>
         </>
     );
 }

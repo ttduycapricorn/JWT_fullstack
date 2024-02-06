@@ -6,6 +6,8 @@ const getGroup = async () => {
             order: [['name', 'ASC']],
             attributes: ['id', 'name', 'description'],
         });
+
+        console.log('>>check data: ', data);
         return {
             EM: 'get group success!',
             EC: 0,

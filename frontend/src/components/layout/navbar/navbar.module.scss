@@ -1,0 +1,38 @@
+.wrapper {
+    margin-bottom: 3px;
+    max-width: 100%;
+    padding: 0 16px 0 16px;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: var(--header-height) !important;
+    background-color: var(--white);
+    color: var(--black);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.container-header {
+    align-items: center;
+    display: flex;
+}
+
+.logo-header {
+    height: 40px;
+    width: 50px;
+}
+
+.menus {
+    padding-left: 20px;
+    display: flex;
+    .menu {
+        font-weight: 600;
+        padding: 5px;
+        transition: 0.25s ease-in-out;
+        &:hover {
+            background-color: rgb(176, 176, 176);
+            background-color: rgb(208, 208, 208);
+            border-radius: 12px;
+        }
+    }
+}

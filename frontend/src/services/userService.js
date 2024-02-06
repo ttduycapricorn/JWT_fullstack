@@ -10,7 +10,6 @@ const registerNewUser = (email, phone, username, password) => {
         password,
     });
 };
-
 const loginUser = (email, password) => {
     return axios.post(
         '/api/login',
@@ -51,4 +50,18 @@ const getUserAccount = () => {
     return axios.get('/api/account');
 };
 
-export { registerNewUser, loginUser, fetchAllUser, deleteUser, fetchGroup, createNewUser, updateUser, getUserAccount };
+const LogoutUser = () => {
+    return axios.post('/api/logout');
+};
+
+export {
+    registerNewUser,
+    loginUser,
+    fetchAllUser,
+    deleteUser,
+    fetchGroup,
+    createNewUser,
+    updateUser,
+    getUserAccount,
+    LogoutUser,
+};
