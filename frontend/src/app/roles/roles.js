@@ -1,19 +1,30 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
-import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
+import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+import _ from 'lodash';
+
+import { UserContext } from '@/context/useContext';
+import { createRole } from '@/services/rolesService';
 
 import styles from './roles.module.scss';
 
 const cx = classNames.bind(styles);
 
 function roles(props) {
+    const router = useRouter();
+    const { user } = useContext(UserContext);
+
+    const dataChildDefault = {
+        url: '',
+        description: '',
+        isValidURL: true,
+    };
+
     const [listChild, setListChild] = useState({
-        child1: {
-            url: '',
-            description: '',
-        },
+        child1: dataChildDefault,
     });
 
     useEffect(() => {
@@ -22,10 +33,21 @@ function roles(props) {
         });
     }, []);
 
+    useEffect(() => {
+        if (user.isAuthenticated === false) {
+            toast.error(`you don't have login!`);
+            router.push('/login');
+        }
+    });
+
     const handleOnchange = (name, value, key) => {
         let _ListChild = _.cloneDeep(listChild);
 
         _ListChild[key][name] = value;
+
+        if (value && name === 'url') {
+            _ListChild[key]['isValidURL'] = true;
+        }
 
         setListChild(_ListChild);
     };
@@ -33,10 +55,7 @@ function roles(props) {
     const handleAddNewInput = () => {
         let _ListChild = _.cloneDeep(listChild);
 
-        _ListChild[`child0-${uuidv4()}`] = {
-            url: '',
-            description: '',
-        };
+        _ListChild[`child0-${uuidv4()}`] = dataChildDefault;
 
         setListChild(_ListChild);
     };
@@ -45,6 +64,42 @@ function roles(props) {
         let _ListChild = _.cloneDeep(listChild);
         delete _ListChild[key];
         setListChild(_ListChild);
+    };
+
+    const buildDataToPersist = () => {
+        let _ListChild = _.cloneDeep(listChild);
+        let result = [];
+
+        Object.entries(_ListChild).map(([key, child], index) => {
+            result.push({
+                url: child.url,
+                description: child.description,
+            });
+        });
+        return result;
+    };
+
+    const handleSave = async () => {
+        // const check = true;
+        const inValid = Object.entries(listChild).find(([key, child], index) => {
+            return child && !child.url;
+        });
+
+        if (!inValid) {
+            // call api
+            let data = buildDataToPersist();
+            let response = await createRole(data);
+            if (response && response.EC === 0) {
+                toast.success(response.EM);
+            }
+            console.log('>>check data build: ', data);
+        } else {
+            let _ListChild = _.cloneDeep(listChild);
+            const key = inValid[0];
+            _ListChild[key]['isValidURL'] = false;
+            setListChild(_ListChild);
+            toast.error('Input URL must have value!');
+        }
     };
 
     return (
@@ -61,7 +116,9 @@ function roles(props) {
                                     <div className={cx('col-5 form-group')}>
                                         <label>URL:</label>
                                         <input
-                                            className={cx('form-control')}
+                                            className={
+                                                child.isValidURL ? cx('form-control') : cx('form-control is-invalid')
+                                            }
                                             type="text"
                                             value={child.url}
                                             onChange={(e) => {
@@ -104,7 +161,14 @@ function roles(props) {
                             );
                         })}
                         <div className={cx('col-2 mt-3')}>
-                            <button className={cx('btn btn-warning')}>Save</button>
+                            <button
+                                className={cx('btn btn-warning')}
+                                onClick={() => {
+                                    handleSave();
+                                }}
+                            >
+                                Save
+                            </button>
                         </div>
                     </div>
                 </div>

@@ -44,6 +44,7 @@ function UserProvider({ children }) {
                 isLoading: false,
             };
 
+            console.log(data);
             setUser(data);
         } else {
             setUser({ ...defaultData, isLoading: false });

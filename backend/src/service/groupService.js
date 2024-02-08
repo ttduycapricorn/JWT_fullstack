@@ -7,7 +7,7 @@ const getGroup = async () => {
             attributes: ['id', 'name', 'description'],
         });
 
-        console.log('>>check data: ', data);
+        // console.log('>>check data: ', data);
         return {
             EM: 'get group success!',
             EC: 0,
