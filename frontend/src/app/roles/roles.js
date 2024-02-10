@@ -1,5 +1,5 @@
 'use client';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 import classNames from 'classnames/bind';
 import { v4 as uuidv4 } from 'uuid';
 import { useRouter } from 'next/navigation';
@@ -8,6 +8,7 @@ import _ from 'lodash';
 
 import { UserContext } from '@/context/useContext';
 import { createRole } from '@/services/rolesService';
+import TableRoles from '@/components/tableRoles';
 
 import styles from './roles.module.scss';
 
@@ -39,6 +40,8 @@ function roles(props) {
             router.push('/login');
         }
     });
+
+    const childRef = useRef();
 
     const handleOnchange = (name, value, key) => {
         let _ListChild = _.cloneDeep(listChild);
@@ -100,6 +103,8 @@ function roles(props) {
             setListChild(_ListChild);
             toast.error('Input URL must have value!');
         }
+
+        childRef.current.fetchListRoles();
     };
 
     return (
@@ -107,7 +112,7 @@ function roles(props) {
             <div className={cx('container')}>
                 <div className={cx('mt-3')}>
                     <div className={cx('tittle-row')}>
-                        <h4>Add a new row...</h4>
+                        <h4>Add new roles:</h4>
                     </div>
                     <div className={cx('role-parent')}>
                         {Object.entries(listChild).map(([key, child], index) => {
@@ -171,6 +176,11 @@ function roles(props) {
                             </button>
                         </div>
                     </div>
+                </div>
+                <hr />
+                <h4>List current roles:</h4>
+                <div className={cx('mt-3')}>
+                    <TableRoles ref={childRef} />
                 </div>
             </div>
         </div>

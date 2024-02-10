@@ -1,28 +1,35 @@
-import userAPIService from '../service/userAPIService';
 import rolesAPIService from '../service/rolesAPIService';
 
 // phân trang cho trang User
 const Read = async (req, res) => {
     try {
-        if (req.query.page && req.query.limit) {
-            let page = req.query.page;
-            let limit = req.query.limit;
-            // console.log('>>check data: ', 'page: ', page, 'limit: ', limit);
-            let data = await userAPIService.getUserWithPagination(+page, +limit);
+        // if (req.query.page && req.query.limit) {
+        //     let page = req.query.page;
+        //     let limit = req.query.limit;
+        //     // console.log('>>check data: ', 'page: ', page, 'limit: ', limit);
+        //     let data = await rolesAPIService.getUserWithPagination(+page, +limit);
 
-            return res.status(200).json({
-                EM: data.EM,
-                EC: data.EC,
-                DT: data.DT, //data
-            });
-        } else {
-            let data = await userAPIService.getAllUser();
-            return res.status(200).json({
-                EM: data.EM,
-                EC: data.EC,
-                DT: data.DT, //data
-            });
-        }
+        //     return res.status(200).json({
+        //         EM: data.EM,
+        //         EC: data.EC,
+        //         DT: data.DT, //data
+        //     });
+        // } else {
+        //     let data = await rolesAPIService.getAllUser();
+        //     return res.status(200).json({
+        //         EM: data.EM,
+        //         EC: data.EC,
+        //         DT: data.DT, //data
+        //     });
+        // }
+
+        let data = await rolesAPIService.getAllRoles();
+
+        return res.status(200).json({
+            EM: data.EM,
+            EC: data.EC,
+            DT: data.DT, //data
+        });
     } catch (e) {
         console.log('>>check error: ', e);
         return res.status(500).json({
@@ -32,6 +39,7 @@ const Read = async (req, res) => {
         });
     }
 };
+
 const Create = async (req, res) => {
     try {
         let data = await rolesAPIService.createNewRoles(req.body);
@@ -51,7 +59,7 @@ const Create = async (req, res) => {
 };
 const Update = async (req, res) => {
     try {
-        let data = await userAPIService.updateUser(req.body);
+        let data = await rolesAPIService.updateUser(req.body);
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,
@@ -70,7 +78,7 @@ const Update = async (req, res) => {
 const Delete = async (req, res) => {
     try {
         console.log('>>>check req.body: ', req.body);
-        let user = await userAPIService.deleteUser(req.body.id);
+        let user = await rolesAPIService.deleteRole(req.body);
         return res.status(200).json({
             EM: user.EM,
             EC: user.EC,

@@ -149,7 +149,7 @@ function UserPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {listUsers ? (
+                                {listUsers && listUsers.length > 0 ? (
                                     listUsers.map((item, index) => {
                                         return (
                                             <tr key={index}>
@@ -191,7 +191,9 @@ function UserPage() {
                                         );
                                     })
                                 ) : (
-                                    <tr>Not found data!</tr>
+                                    <td colSpan={4} style={{ alignItems: 'center' }}>
+                                        Not found users!
+                                    </td>
                                 )}
                             </tbody>
                         </table>
