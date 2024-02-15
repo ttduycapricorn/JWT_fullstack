@@ -50,12 +50,16 @@ const initAPIRoutes = (app) => {
 
     // group routes
     router.get('/group/read', groupController.readFunc);
+    router.get('/group/create', groupController.readFunc);
+    router.get('/group/delete', groupController.readFunc);
+    router.get('/group/update', groupController.readFunc);
 
     // roles routes
     router.get('/role/read', rolesController.Read);
     router.post('/role/create', rolesController.Create);
     router.put('/role/update', rolesController.Update);
     router.delete('/role/delete', rolesController.Delete);
+    router.get('/role/by-group/:groupId', rolesController.getRoleByGroup);
 
     return app.use('/api', router);
 };

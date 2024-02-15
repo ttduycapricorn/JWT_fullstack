@@ -21,4 +21,12 @@ export const menuItemsData = [
         title: 'Roles',
         url: '/roles',
     },
+    {
+        title: 'Login',
+        url: '/login',
+    },
+    {
+        title: 'Groups-Roles',
+        url: '/group-role',
+    },
 ];

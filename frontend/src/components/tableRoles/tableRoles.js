@@ -47,6 +47,10 @@ const TableRoles = forwardRef((props, ref) => {
         await getAllRoles();
     };
 
+    const handleEditUser = () => {
+        alert('chung ta cua hien tai');
+    };
+
     return (
         <>
             <div className="user-body">

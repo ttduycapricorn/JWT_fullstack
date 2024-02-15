@@ -31,7 +31,6 @@ function UserProvider({ children }) {
 
     const fetchUser = async () => {
         let response = await getUserAccount();
-        console.log(response);
         if (response && response.EC === 0) {
             let GroupWithRoles = response.DT.GroupWithRoles;
             let email = response.DT.email;
@@ -44,7 +43,6 @@ function UserProvider({ children }) {
                 isLoading: false,
             };
 
-            console.log(data);
             setUser(data);
         } else {
             setUser({ ...defaultData, isLoading: false });

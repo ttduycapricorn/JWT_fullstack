@@ -1,0 +1,9 @@
+.form-check-label {
+    cursor: pointer;
+    transition: 0.3s ease-in;
+
+    &:hover {
+        color: var(--blue-header-navbar);
+        text-decoration: underline;
+    }
+}

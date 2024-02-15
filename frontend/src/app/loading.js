@@ -1,10 +1,9 @@
 'use client';
 import { ColorRing } from 'react-loader-spinner';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { UserContext } from '@/context/useContext';
 
 import './page.scss';
-import { resolve } from 'styled-jsx/css';
 
 export default function Loading() {
     const { user } = useContext(UserContext);

@@ -94,9 +94,30 @@ const Delete = async (req, res) => {
     }
 };
 
+const getRoleByGroup = async (req, res) => {
+    try {
+        let id = req.params.groupId;
+        let data = await rolesAPIService.getRoleByGroup(id);
+
+        return res.status(200).json({
+            EM: data.EM,
+            EC: data.EC,
+            DT: data.DT, //data
+        });
+    } catch (e) {
+        console.log('>>>check error getRoleByGroup: ', e);
+        return res.status(500).json({
+            EM: 'error from server',
+            EC: -1,
+            DT: '', //data
+        });
+    }
+};
+
 module.exports = {
     Read,
     Create,
     Update,
     Delete,
+    getRoleByGroup,
 };
