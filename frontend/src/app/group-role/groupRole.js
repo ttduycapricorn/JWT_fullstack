@@ -4,9 +4,10 @@ import { useState, useEffect } from 'react';
 import _ from 'lodash';
 
 import { fetchGroup } from '@/services/userService';
-import { fetchAllRoles, fetchRolesByGroup } from '@/services/rolesService';
+import { fetchAllRoles, fetchRolesByGroup, assignRoleToGroup } from '@/services/rolesService';
 
 import style from './groupRole.module.scss';
+import { toast } from 'react-toastify';
 
 const cx = classNames.bind(style);
 
@@ -79,6 +80,32 @@ function GroupRole() {
         setAssignRoleByGroup(_assignRoleByGroup);
     };
 
+    const buildDataToSave = () => {
+        const result = {};
+        const _assignRoleByGroup = _.cloneDeep(assignRoleByGroup);
+        result.groupId = selectGroup;
+        let groupRolesFilter = _assignRoleByGroup.filter((item) => item.isAssigned === true);
+
+        let finalGroupRoles = groupRolesFilter.map((x) => {
+            let data = {
+                groupId: +selectGroup,
+                roleId: +x.id,
+            };
+            return data;
+        });
+        result.groupRoles = finalGroupRoles;
+        console.log('>>check result: ', result);
+        return result;
+    };
+
+    const handleSave = async () => {
+        let data = buildDataToSave();
+        let res = await assignRoleToGroup(data);
+        if (res && res.EC === 0) {
+            toast.success(res.EM);
+        }
+    };
+
     return (
         <div className={cx('group-role-container')}>
             <div className={cx('container')}>
@@ -138,7 +165,14 @@ function GroupRole() {
                                         );
                                     })}
                                 <div className={cx('mt-3')}>
-                                    <button className={cx('btn btn-warning')}>Save</button>
+                                    <button
+                                        className={cx('btn btn-warning')}
+                                        onClick={() => {
+                                            handleSave();
+                                        }}
+                                    >
+                                        Save
+                                    </button>
                                 </div>
                             </div>
                         )}

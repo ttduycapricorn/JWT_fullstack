@@ -114,10 +114,29 @@ const getRoleByGroup = async (req, res) => {
     }
 };
 
+const assignRoleToGroup = async (req, res) => {
+    try {
+        let data = await rolesAPIService.assignRoleToGroup(req.body.data);
+        return res.status(200).json({
+            EM: data.EM,
+            EC: data.EC,
+            DT: data.DT, //data
+        });
+    } catch (e) {
+        console.log('>>>check error assignRoleToGroup: ', e);
+        return res.status(500).json({
+            EM: 'error from server',
+            EC: -1,
+            DT: '', //data
+        });
+    }
+};
+
 module.exports = {
     Read,
     Create,
     Update,
     Delete,
     getRoleByGroup,
+    assignRoleToGroup,
 };
